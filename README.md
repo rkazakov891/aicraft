@@ -180,7 +180,7 @@ codex plugin add valcraft@valcraft
 
 OpenCode — nothing to run: the source is re-read at startup, and a skill whose `version` in `index.json` changed is re-downloaded (raw GitHub caches for a few minutes).
 
-Cursor — re-index the team marketplace, then install the plugin again from the Plugins UI:
+Cursor — re-index the marketplace, then install or update the plugin from the user-scoped Plugins UI (`/plugins` → `valcraft` → Install/Update). If the re-index does not surface the new version, remove and re-add the marketplace with `agent plugin marketplace remove valcraft` followed by the `add` command above:
 
 ```bash
 agent plugin marketplace update valcraft
