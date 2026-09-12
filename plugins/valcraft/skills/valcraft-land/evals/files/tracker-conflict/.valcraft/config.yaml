@@ -1,3 +1,5 @@
+valcraft_version: "0.8.1"
+
 tracker:
   mode: local
   # yamllint disable-line rule:key-duplicates

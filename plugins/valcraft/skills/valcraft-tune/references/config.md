@@ -7,11 +7,11 @@ Valcraft configuration lives in two files under `.valcraft/`:
 
 The **resolved configuration** is the base with each overlay key applied. Readers validate and use the resolved configuration. Tune is the sole writer of both files.
 
-Every mapping in either file is closed: reject unknown keys at every level. Reject duplicate YAML keys, non-string mapping keys, and values of the wrong YAML type. Strings required below must be nonempty after trimming. Neither file contains a schema version, and no value has a read-time default.
+Every mapping in either file is closed: reject unknown keys at every level. Reject duplicate YAML keys, non-string mapping keys, and values of the wrong YAML type. Strings required below must be nonempty after trimming. The base records the plugin version the repository was last migrated to in `valcraft_version`; no value has a read-time default.
 
 ## Scope split
 
-Repo-scoped settings live only in the base: the whole `tracker` section, `foreman.default_branch`, `foreman.release_branch`, `foreman.clarification_assignees`, and `pull_requests.merge_strategy`. A repo-scoped key in the overlay is a validation error.
+Repo-scoped settings live only in the base: `valcraft_version`, the whole `tracker` section, `foreman.default_branch`, `foreman.release_branch`, `foreman.clarification_assignees`, and `pull_requests.merge_strategy`. A repo-scoped key in the overlay is a validation error.
 
 User-scoped settings may appear in the overlay: `foreman.approval_mode`, `foreman.backend`, `foreman.herdr`, and `foreman.ao`.
 
@@ -26,9 +26,11 @@ Validate in three steps: the base standalone against the shape below; the overla
 
 ## Shape
 
-The base takes this shape and the root requires exactly `tracker`, `foreman`, and `pull_requests`:
+The base takes this shape and the root requires exactly `valcraft_version`, `tracker`, `foreman`, and `pull_requests`:
 
 ```yaml
+valcraft_version: "0.8.1"
+
 tracker:
   mode: local
 
@@ -49,7 +51,7 @@ pull_requests:
 - `local` permits only `mode`.
 - `github` requires `github_repository`: either one repository identifier accepted as free-form input and stored as a string, or the literal placeholder `TBD` recording that the operator has not selected the target yet. `TBD` is never an identifier: a skill that needs a concrete target treats it as pending activation and routes target selection back to Tune. Do not probe or mutate the host merely to validate configuration.
 
-Changing `tracker.mode` when committed feature artifacts exist is blocked: every committed mapping would need migration, and Tune performs no migration. Replacing one concrete `github_repository` identifier with another is blocked for the same reason while any committed positive `spec_issue` or task issue mapping exists: issue numbers are repository-relative, so the retarget would silently point every mapping at a different tracker. Replacing the `TBD` placeholder with the first concrete identifier is activation, not retargeting, and stays allowed.
+Changing `tracker.mode` when committed feature artifacts exist is blocked: every committed mapping would need migration, and Tune does not migrate tracker mappings. Replacing one concrete `github_repository` identifier with another is blocked for the same reason while any committed positive `spec_issue` or task issue mapping exists: issue numbers are repository-relative, so the retarget would silently point every mapping at a different tracker. Replacing the `TBD` placeholder with the first concrete identifier is activation, not retargeting, and stays allowed.
 
 ### Foreman
 
@@ -83,6 +85,16 @@ Reviewer independence is structural. On the resolved configuration, require diff
 ### Pull requests
 
 `pull_requests` requires only `merge_strategy`, one of `squash`, `merge`, or `rebase`. This choice selects a host merge method but grants no authority to use it.
+
+### Plugin version
+
+`valcraft_version` is a string of three dot-separated non-negative integers: the plugin version this repository was last migrated to. The current plugin version is the newest `## vX.Y.Z` heading in [`migrations.md`](migrations.md). Compare the two component by component as integers.
+
+- Equal: valid.
+- Absent or older: invalid, reason `outdated`, even when the shape also fails, because ledger entries may repair the shape. Tune resolves it with the migration flow in `migrations.md`; the first-run flow does not run for an outdated base. Any invalidity that remains after the migration flow takes the ordinary repair path.
+- Newer: invalid, reason `plugin outdated`. The installed plugin is older than the repository; Tune writes nothing and reports `plugin_outdated`.
+
+Every reader delegates either reason to Tune through its existing invalid-configuration rule and never edits the key. First run and full repair write the current plugin version without asking. Reconfiguration preserves the recorded value; only the migration flow advances it.
 
 ## Question flow
 
@@ -133,7 +145,7 @@ For Custom, ask each role in the table order. Offer Claude, Codex, and Cursor; p
 
 ## Reconfiguration
 
-For an existing valid resolved configuration, reconfigure only when the caller or operator asks for it. The first question is always a list of sections, including when the request already named one. Naming a section is not an answer to this question, whether a caller or the operator named it: it selects the order, so put that section first and mark it recommended. The menu shows every section the operator may also want to change in the same run, which a named section cannot establish. Otherwise use this order:
+For an existing valid resolved configuration, reconfigure only when the caller or operator asks for it; a bare direct invocation is that request. The first question is always a list of sections, including when the request already named one. Naming a section is not an answer to this question, whether a caller or the operator named it: it selects the order, so put that section first and mark it recommended. The menu shows every section the operator may also want to change in the same run, which a named section cannot establish. Otherwise use this order:
 
 1. `Tasks/Issue Tracker (Recommended)` — change local or GitHub tracking and its dependent assignees.
 2. `Foreman Loop` — change backend, approval mode, branches, and backend-dependent settings. Foreman is the coordinator that runs the delivery loop through fresh Draft, Review, Forge, Land, and Temper workers.
@@ -148,4 +160,4 @@ Removal semantics apply within each file: never retain an inapplicable block as 
 
 ## Noninteractive use
 
-In a headless or noninteractive run, return `configuration_required` with the unresolved fields and make no write. Do not select recommended answers, convert an invalid partial document, or treat `foreman.approval_mode: unattended` as authority to answer questions.
+In a headless or noninteractive run, return `configuration_required` with the unresolved fields and make no write. A migration flow whose applicable entries name no choice has no unresolved field: it completes, including its write and commit, in a direct or delegated run, attended or not. Do not select recommended answers, convert an invalid partial document, or treat `foreman.approval_mode: unattended` as authority to answer questions.
