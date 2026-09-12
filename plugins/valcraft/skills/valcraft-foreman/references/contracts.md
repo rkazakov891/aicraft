@@ -50,6 +50,28 @@ Spec and Draft advance to Review only when the next Review worker can access the
 
 `SpecResult`, `DraftResult`, and `ForgeResult` first apply the prepared outward continuation above; they advance only when the next worker can resolve the exact target. `TemperResult` advances to RetroReview on its path-and-hash Review target with no outward step. `PlanVerdict`, `CodeVerdict`, and `RetroVerdict` read the report's structured verdict, not prose. A SpecReview pass enters Ready when the reviewed contract is already present on the reconciled default branch. Otherwise it advances to SpecLanding only with a current exact spec PR or returns to Specifying. Material SpecReview findings return to Specifying. LandResult uses the reported target kind: a completed spec PR enters Ready after default-branch reconciliation, a completed task returns Ready, a completed tracker-only feature close enters Retrospective, and completed external closure returns Ready.
 
+## Coordinator reads
+
+A producer report body never enters Foreman's context. After `report_available`, extract only these parts with line-oriented tools and pass the report path, not its content, to the next worker:
+
+1. the heading index — every line that opens with two or three `#` characters and a space — for the completeness check;
+2. the terminal `Status:` line — the last line of the file;
+3. the sections this table names for the message, each read by its heading range.
+
+| Message | Sections Foreman reads |
+| --- | --- |
+| Feature or quick contract | `### Readiness`, `### Workspace`, `### Outward mutations`, `### Finding resolutions`, `### Review target`, `### Land target`, `### Open questions` |
+| Task plan | `### Plan`, `### Review target`, `### Finding resolutions`, `### Outward mutations`, `### Open questions` |
+| Plan verdict | the machine-readable first line of `### Verdict`, and the `### Findings` rows whose R-ID that line lists as open |
+| Task implementation and PR | `### Workspace`, `### Finding resolutions`, `### Outward mutations`, `### Open questions`, `### Review target` |
+| Code verdict | the machine-readable first line of `### Verdict`, and the `### Findings` rows whose R-ID that line lists as open |
+| Finalization or evidence record | `### Target`, `### Authoritative state`, `### Prepared operations`, `### Completed operations`, `### Remaining operations`, `### Handoffs` |
+| Evidence-sufficiency verdict | `### Target and sources`, `### Overall verdict` |
+| Retrospective report | `### Operator selection`, `### Review target`, `### Blockers` |
+| Retrospective verdict | the machine-readable first line of `### Verdict`, and the `### Findings` rows whose R-ID that line lists as open |
+
+The open finding rows carry the severity, claim, evidence, and resolution that `review-round.md`'s second-round triggers test. Every other section — verification evidence, resolved or informational findings, reproductions, checks performed, criterion detail — stays on disk for the worker whose role reads it. A field a transition needs that is absent from the named sections makes the report incomplete under [Validation and rejection](#validation-and-rejection); it is never a reason to read the body. The project frame is outside the loop and has no coordinator read.
+
 ## Declared outcome routing
 
 Each declared code has one transition. The detail after `—` never changes it.
