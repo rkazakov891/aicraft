@@ -2,6 +2,8 @@
 
 Use this reference only for a complete feature triplet when the committed `.aicraft/config.yaml` sets `tracker.mode: github`. Git owns feature and task definitions, order, and hard dependencies. GitHub owns discussion and task status. Spec owns projection and reconciliation; it never treats tracker content as authority.
 
+For an accepted Discovery source, apply [Discovery adoption](discovery-intake.md) first: reuse its verified permanent issue, preserve its managed block and human content, and add the feature marker there. The generic separate-PRD-parenting rule below does not apply to that issue.
+
 ## Identity and target
 
 Resolve the target only from the committed `.aicraft/config.yaml`. Never infer it from a source issue or a git remote. If `tracker.github_repository` is `TBD`, invoke Tune for the tracker section and wait for explicit target selection; do not choose or write one directly.

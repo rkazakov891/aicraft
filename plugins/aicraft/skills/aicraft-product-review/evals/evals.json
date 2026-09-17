@@ -1,0 +1,19 @@
+{
+  "skill_name": "aicraft-product-review",
+  "evals": [
+    {
+      "id": 1,
+      "name": "overlapping-capability",
+      "prompt": "Review a proposed CSV export capability against an existing filtered export scenario and a planned scheduled-export feature. Explain overlap and alternatives; do not change the documents.",
+      "expected_output": "Distinguishes extension, duplicate, and independent schedule behavior with citations. Presents alternatives and does not decide scope for the operator.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "missing-inventory",
+      "prompt": "Review this Discovery. Its manifest references its own scenario but the product brief refers to an existing capability whose document is unavailable.",
+      "expected_output": "Reports the missing comparison context as blocking and does not infer that no conflict exists.",
+      "files": []
+    }
+  ]
+}

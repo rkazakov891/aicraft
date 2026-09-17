@@ -1,14 +1,14 @@
 ---
 name: aicraft-foreman
 description: >
-  Coordinate or take over the spec-driven delivery loop through fresh Spec, Draft, Review, Forge, Land, and Temper workers. Own runtime readiness, takeover inference, task selection, intermediate tracker state, worker lifecycle, backend returns, report validation, approval gates, recovery, and named-state transitions. Use for "run the delivery loop", "take over delivery", "start sprint", "work through the tasks", "deliver quick", or "run foreman". Do not use for new feature or PRD creation (aicraft-spec), task planning (aicraft-draft), implementation (aicraft-forge), review (aicraft-review), landing or closure (aicraft-land), retrospective production (aicraft-temper), or project framing (aicraft-cast).
+  Coordinate or take over delivery through independent workers. Own dispatch, readiness, recovery, report validation, and transitions. Use for "run the delivery loop", "take over delivery", "start sprint", "work through the tasks", "deliver quick", or "run foreman". Also use for explicitly coordinating Discovery through Spec. Do not use for direct PRD creation (aicraft-spec), task planning (aicraft-draft), implementation (aicraft-forge), review (aicraft-review), landing or closure (aicraft-land), retrospective production (aicraft-temper), or project framing (aicraft-cast).
 ---
 
 # aicraft-foreman
 
 Never replay another AiCraft skill's report. Omit unrelated prior state. When relevant prior state is necessary, summarize it in one prose paragraph containing only the prior outcome, exact target, relevant blocker or handoff, and one suggested next action. The suggested action is advisory and grants no authority.
 
-Coordinate delivery. Never perform a worker skill's work.
+Coordinate; never perform worker work.
 
 Claude Code `/aicraft:aicraft-<name>`; Codex `$aicraft:aicraft-<name>`; OpenCode `aicraft-<name>`; Cursor `/aicraft-<name>`.
 
@@ -29,7 +29,9 @@ Load [`references/review-round.md`](references/review-round.md) only after mater
 
 After compaction, resume, takeover, or another context reset, repeat configuration resolution, reload the governing contracts, and read the latest checkpoint rather than the whole log before the next dispatch. Reload `review-round.md` when a material-finding round is active. A summary carries state pointers, never configuration or contract authority.
 
-`new PRD`, feature-contract creation, and quick-task creation are outside this loop. Route the readable source directly to `aicraft-spec`; create no Foreman run.
+For explicit Discovery-to-Spec coordination, use the opt-in [Discovery prelude](references/discovery.md), including its reports and initial-Spec exception.
+
+Otherwise, `new PRD`, feature-contract creation, and quick-task creation are outside this loop. Route the readable source directly to `aicraft-spec`; create no Foreman run.
 
 ## Invariants
 

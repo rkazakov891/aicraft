@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trace"
+  short_description: "Check provenance and generate scenario navigation"
+  default_prompt: "Use $aicraft:aicraft-trace to check this Discovery and generate its trace navigator."

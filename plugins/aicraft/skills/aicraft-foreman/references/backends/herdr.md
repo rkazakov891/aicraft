@@ -6,6 +6,8 @@ The controller runs inside the project's Herdr session, and that session is the 
 
 Workers share Foreman's checkout and canonical task branch. Isolation comes from a fresh worker per dispatch and serial execution, not from a worktree, so the shared-checkout rules in [`subagents.md`](subagents.md#shared-checkout) apply unchanged.
 
+The opt-in [Discovery prelude](../discovery.md) may isolate product and Trace review outputs in detached snapshot worktrees. That scoped exception does not enable concurrent task implementation or change the canonical task-branch rules. Apply its explicit spec/spec_review role bindings.
+
 ## Flags
 
 | Flag | Value |

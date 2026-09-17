@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "aicraft",
-  "version": "0.8.3",
-  "description": "AiCraft is a software factory in your repository: it coordinates the work, keeps the requirements and decisions in ordinary files, and checks the code before shipping so you can see what was built and how it was verified. Skills: tune (repository configuration), cast (project framing), spec (feature and quick contracts), draft (task plans with MSW), forge (reviewed-task implementation and authorized task PRs), review (report-only plan, code, and evidence review), land (authorized finalization and tracker closure), foreman (named-state delivery coordination), temper (local retrospective production), hone (prompt refinement), distill (prompt distillation), and msw (MSW Kernel document judgment).",
+  "version": "0.9.0",
+  "description": "AiCraft is a software factory in your repository: it coordinates the work, keeps the requirements and decisions in ordinary files, and checks the code before shipping so you can see what was built and how it was verified. Skills: discover (scenario discovery), product-review (independent capability review), trace (revision-bound provenance and navigation), tune (repository configuration), cast (project framing), spec (feature and quick contracts), draft (task plans with MSW), forge (reviewed-task implementation and authorized task PRs), review (report-only plan, code, and evidence review), land (authorized finalization and tracker closure), foreman (named-state delivery coordination), temper (local retrospective production), hone (prompt refinement), distill (prompt distillation), and msw (MSW Kernel document judgment).",
   "author": {
     "name": "aicraft contributors",
     "url": "https://github.com/rkazakov891/aicraft"
@@ -10,5 +10,10 @@
   "homepage": "https://github.com/rkazakov891/aicraft",
   "repository": "https://github.com/rkazakov891/aicraft",
   "license": "MIT",
-  "keywords": ["skills", "sdd", "scaffold", "prompt-engineering"]
+  "keywords": [
+    "skills",
+    "sdd",
+    "scaffold",
+    "prompt-engineering"
+  ]
 }

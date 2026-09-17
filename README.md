@@ -8,6 +8,14 @@ Status: alpha.
 
 AiCraft is a fork of [Valcraft](https://github.com/valzav/valcraft), based on commit `5d3498230327352fe56eef0eb6b2c8d5290a5460` (0.8.2). The original MIT license and copyright are preserved. AiCraft uses its own plugin namespace and configuration; see [the transition guide](docs/valcraft-to-aicraft.md).
 
+## Scenario Discovery (0.9.0)
+
+Start with `aicraft-discover` when you have a feature idea rather than a prepared requirements document. It records sources, user scenarios, and decisions in Git. Independent `aicraft-product-review` and `aicraft-trace` check the exact snapshot before your confirmation. Trace generates Mermaid and a searchable local HTML navigator. Spec then consumes the accepted bundle, preserves scenario IDs, writes EARS requirements, and reuses the permanent feature issue.
+
+Ask Foreman explicitly to coordinate Discovery through Spec to run that prelude through the configured backend. Discovery acceptance does not authorize implementation. Legacy Spec/task delivery remains available unchanged. Python 3.10+ is required for the optional Discovery helper. The prelude may overlap isolated snapshot reviews; concurrent implementation, release planners, test-design workers, and full release acceptance are later deliveries described in [the target architecture](docs/scenario-delivery.md).
+
+See [the first-delivery guide](docs/discovery.md) for artifacts, commands, and verification limits.
+
 ## Problems it addresses
 
 | If you have seen this…                                              | aicraft's answer                                                                                                                                                                                  |
@@ -102,6 +110,9 @@ Invoke Foreman at any point after Spec to hand over the remaining sequence. It c
 | --- | --- | --- | --- | --- |
 | `tune` — adjust the shared configuration or your local overlay | `/aicraft:aicraft-tune` | `$aicraft:aicraft-tune` | `aicraft-tune` | `/aicraft-tune` |
 | `cast` — create or retrofit the project frame | `/aicraft:aicraft-cast` | `$aicraft:aicraft-cast` | `aicraft-cast` | `/aicraft-cast` |
+| `discover` — develop and resume user scenarios | `/aicraft:aicraft-discover` | `$aicraft:aicraft-discover` | `aicraft-discover` | `/aicraft-discover` |
+| `product-review` — review capability conflicts and value | `/aicraft:aicraft-product-review` | `$aicraft:aicraft-product-review` | `aicraft-product-review` | `/aicraft-product-review` |
+| `trace` — check lineage and generate navigation | `/aicraft:aicraft-trace` | `$aicraft:aicraft-trace` | `aicraft-trace` | `/aicraft-trace` |
 | `spec` — create a feature or quick contract | `/aicraft:aicraft-spec` | `$aicraft:aicraft-spec` | `aicraft-spec` | `/aicraft-spec` |
 | `draft` — write a task plan and apply MSW | `/aicraft:aicraft-draft` | `$aicraft:aicraft-draft` | `aicraft-draft` | `/aicraft-draft` |
 | `forge` — implement a reviewed task | `/aicraft:aicraft-forge` | `$aicraft:aicraft-forge` | `aicraft-forge` | `/aicraft-forge` |
@@ -119,7 +130,7 @@ Skills also trigger from natural requests ("new project", "review this PR", "ret
 
 | Elsewhere                                                                                    | In aicraft                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| An executable, scripts, and a setup step.                                                    | The skills are instruction-only: one plugin and no runtime dependency. `cast` writes the tracked project frame; `tune` writes the committed configuration and an optional ignored overlay.                                                                                       |
+| An executable, scripts, and a setup step.                                                    | Existing delivery skills are instruction-driven; optional Discovery adds Python standard-library validation and navigation helpers. `cast` writes the tracked project frame; `tune` writes the committed configuration and an optional ignored overlay.                                                                                       |
 | Specs and tasks live in the framework's own folders and formats.                             | Specs are ordinary files under `specs/`, tasks are checkboxes or GitHub Issues you already use, decisions are ADRs — readable and editable without the tool.                                                                                               |
 | SDD is a session ritual, not a project rule; work done outside it drifts from the specs.     | `cast` writes the discipline into `AGENTS.md`, so every agent session — inside the loop or not — cites IDs, updates the affected spec or ADR in the same change, and reviews against the same contract; `cast` retrofits an existing project the same way. |
 | Roles are personas and phases are ceremony — analyst hands off to PM hands off to architect. | AiCraft's roles are skills with contracts (`spec`, `draft`, `forge`, `review`, `land`, `temper`); independence comes from a fresh context per role, not a character sheet.                                                                                |

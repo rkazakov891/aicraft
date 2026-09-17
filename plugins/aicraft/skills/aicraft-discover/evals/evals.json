@@ -1,0 +1,26 @@
+{
+  "skill_name": "aicraft-discover",
+  "evals": [
+    {
+      "id": 1,
+      "name": "resume-with-new-behavior",
+      "prompt": "An existing Discovery describes filtered CSV export. Resume its discussion: the operator now wants only administrators to export. Preserve its identity and issue. Do not implement or publish externally.",
+      "expected_output": "Records the new access decision and questions, updates the existing scenario, invalidates prior revision-bound approval, and returns to review rather than allocating a second feature.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "idea-not-implementation-authority",
+      "prompt": "I want users to download their filtered records. Help me define the feature. We have not agreed who may export or what happens for an empty result. Work locally.",
+      "expected_output": "Stores original intent and develops scenarios, asks a focused material question, preserves uncertainty, does not invent access/empty-result behavior or claim acceptance.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "same-issue-handoff",
+      "prompt": "The selected committed Discovery has current independent passes and an attributed operator acceptance. Its permanent feature issue already exists. Prepare the Spec handoff without starting implementation.",
+      "expected_output": "Returns exact source/SHA/revision and existing issue mapping, preserving scenario IDs. Rejects any stale input or unverifiable approval instead of manufacturing a pass.",
+      "files": []
+    }
+  ]
+}
