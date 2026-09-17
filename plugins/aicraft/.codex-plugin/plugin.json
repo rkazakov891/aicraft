@@ -1,0 +1,29 @@
+{
+  "name": "aicraft",
+  "version": "0.8.3",
+  "description": "AiCraft is a software factory in your repository: it coordinates the work, keeps the requirements and decisions in ordinary files, and checks the code before shipping so you can see what was built and how it was verified. Skills: tune (repository configuration), cast (project framing), spec (feature and quick contracts), draft (task plans with MSW), forge (reviewed-task implementation and authorized task PRs), review (report-only plan, code, and evidence review), land (authorized finalization and tracker closure), foreman (named-state delivery coordination), temper (local retrospective production), hone (prompt refinement), distill (prompt distillation), and msw (MSW Kernel document judgment).",
+  "author": {
+    "name": "aicraft contributors",
+    "url": "https://github.com/rkazakov891/aicraft"
+  },
+  "homepage": "https://github.com/rkazakov891/aicraft",
+  "repository": "https://github.com/rkazakov891/aicraft",
+  "license": "MIT",
+  "keywords": ["skills", "sdd", "scaffold", "prompt-engineering"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AiCraft",
+    "shortDescription": "Skills for project framing, contracts, delivery, review, and prompt work.",
+    "longDescription": "AiCraft provides Tune for configuration, Cast project framing, Spec feature and quick contracts, Draft task planning with MSW, Forge implementation and task PR handoff, independent Review, Land finalization and tracker closure, Foreman named-state coordination, Temper retrospectives, prompt refinement and distillation, and MSW Kernel document judgment.",
+    "developerName": "aicraft contributors",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use $aicraft:aicraft-cast to scaffold this project."
+    ]
+  }
+}

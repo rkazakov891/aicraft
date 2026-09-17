@@ -15,7 +15,7 @@ from pathlib import Path
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 MARKETPLACE = Path(".cursor-plugin") / "marketplace.json"
-NATIVE_PLUGIN = Path("plugins") / "valcraft" / ".cursor-plugin" / "plugin.json"
+NATIVE_PLUGIN = Path("plugins") / "aicraft" / ".cursor-plugin" / "plugin.json"
 
 
 def source_starts_with_root(source: str, plugin_root: str) -> bool:

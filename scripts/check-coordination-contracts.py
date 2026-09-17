@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check static consistency of Valcraft's coordination contracts.
+"""Check static consistency of AiCraft's coordination contracts.
 
 This is drift insurance for declarations. Behavioral evals remain the proof that the
 skills and delivery loop behave as specified.
@@ -14,14 +14,14 @@ from pathlib import Path
 
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
-CONTRACTS = Path("plugins/valcraft/skills/valcraft-foreman/references/contracts.md")
-BACKENDS = Path("plugins/valcraft/skills/valcraft-foreman/references/backends/README.md")
+CONTRACTS = Path("plugins/aicraft/skills/aicraft-foreman/references/contracts.md")
+BACKENDS = Path("plugins/aicraft/skills/aicraft-foreman/references/backends/README.md")
 BACKEND_DIRECTORY = BACKENDS.parent
-FOREMAN_EVALS = Path("plugins/valcraft/skills/valcraft-foreman/evals/evals.json")
-SKILLS_DIRECTORY = Path("plugins/valcraft/skills")
+FOREMAN_EVALS = Path("plugins/aicraft/skills/aicraft-foreman/evals/evals.json")
+SKILLS_DIRECTORY = Path("plugins/aicraft/skills")
 HERDR = BACKEND_DIRECTORY / "herdr.md"
-LOOP = Path("plugins/valcraft/skills/valcraft-foreman/references/loop.md")
-TUNE_CONFIG = Path("plugins/valcraft/skills/valcraft-tune/references/config.md")
+LOOP = Path("plugins/aicraft/skills/aicraft-foreman/references/loop.md")
+TUNE_CONFIG = Path("plugins/aicraft/skills/aicraft-tune/references/config.md")
 
 HERDR_ROLE_MAP = {
     "Specifying": ("spec", "spec_review"),
@@ -62,7 +62,7 @@ LOOP_PARTIAL_COMPLETION_ROUTES = {
 }
 
 PRIOR_STATE_PRESENTATION_CONTRACT = (
-    "Never replay another Valcraft skill's report. Omit unrelated prior state. "
+    "Never replay another AiCraft skill's report. Omit unrelated prior state. "
     "When relevant prior state is necessary, summarize it in one prose paragraph "
     "containing only the prior outcome, exact target, relevant blocker or handoff, "
     "and one suggested next action. The suggested action is advisory and grants no "
@@ -94,7 +94,7 @@ LAND_EXECUTION_FIELDS = {
 # These fingerprints name only the producer-owned report headings and their order. The
 # linked producer file remains authoritative for fields, meaning, status, and behavior.
 REPORT_HEADINGS = {
-    "plugins/valcraft/skills/valcraft-cast/SKILL.md#report": (
+    "plugins/aicraft/skills/aicraft-cast/SKILL.md#report": (
         "## Cast report",
         "### Project frame",
         "### Scaffold baseline",
@@ -103,7 +103,7 @@ REPORT_HEADINGS = {
         "### Outward mutations",
         "### Blockers",
     ),
-    "plugins/valcraft/skills/valcraft-draft/references/plan-contract.md#report": (
+    "plugins/aicraft/skills/aicraft-draft/references/plan-contract.md#report": (
         "## Draft report",
         "### Task",
         "### Plan",
@@ -113,7 +113,7 @@ REPORT_HEADINGS = {
         "### Outward mutations",
         "### Open questions",
     ),
-    "plugins/valcraft/skills/valcraft-forge/references/verification-and-handoff.md#forge-report": (
+    "plugins/aicraft/skills/aicraft-forge/references/verification-and-handoff.md#forge-report": (
         "## Forge report",
         "### Task",
         "### Plan and plan review",
@@ -125,7 +125,7 @@ REPORT_HEADINGS = {
         "### Open questions",
         "### Review target",
     ),
-    "plugins/valcraft/skills/valcraft-review/SKILL.md#reports": (
+    "plugins/aicraft/skills/aicraft-review/SKILL.md#reports": (
         "## Review report",
         "### Mode and change class",
         "### Verdict",
@@ -134,14 +134,14 @@ REPORT_HEADINGS = {
         "### Checks performed",
         "### Not examined",
     ),
-    "plugins/valcraft/skills/valcraft-review/references/evidence-mode.md#evidence-sufficiency-report": (
+    "plugins/aicraft/skills/aicraft-review/references/evidence-mode.md#evidence-sufficiency-report": (
         "## Evidence-sufficiency report",
         "### Target and sources",
         "### Criterion verdicts",
         "### Overall verdict",
         "### Not independently verified",
     ),
-    "plugins/valcraft/skills/valcraft-land/SKILL.md#report": (
+    "plugins/aicraft/skills/aicraft-land/SKILL.md#report": (
         "## Land report",
         "### Target",
         "### Authoritative state",
@@ -153,7 +153,7 @@ REPORT_HEADINGS = {
         "### Remaining operations",
         "### Handoffs",
     ),
-    "plugins/valcraft/skills/valcraft-spec/references/delivery.md#spec-report": (
+    "plugins/aicraft/skills/aicraft-spec/references/delivery.md#spec-report": (
         "## Spec report",
         "### Source",
         "### Artifact",
@@ -166,7 +166,7 @@ REPORT_HEADINGS = {
         "### Land target",
         "### Open questions",
     ),
-    "plugins/valcraft/skills/valcraft-temper/SKILL.md#report": (
+    "plugins/aicraft/skills/aicraft-temper/SKILL.md#report": (
         "## Temper report",
         "### Corpus and mode",
         "### Retrospective artifact",
@@ -181,43 +181,43 @@ REPORT_HEADINGS = {
 MESSAGE_REGISTRY = {
     "Project frame": (
         "Cast",
-        "plugins/valcraft/skills/valcraft-cast/SKILL.md#report",
+        "plugins/aicraft/skills/aicraft-cast/SKILL.md#report",
     ),
     "Feature or quick contract": (
         "Spec",
-        "plugins/valcraft/skills/valcraft-spec/references/delivery.md#spec-report",
+        "plugins/aicraft/skills/aicraft-spec/references/delivery.md#spec-report",
     ),
     "Task plan": (
         "Draft",
-        "plugins/valcraft/skills/valcraft-draft/references/plan-contract.md#report",
+        "plugins/aicraft/skills/aicraft-draft/references/plan-contract.md#report",
     ),
     "Plan verdict": (
         "Review",
-        "plugins/valcraft/skills/valcraft-review/SKILL.md#reports",
+        "plugins/aicraft/skills/aicraft-review/SKILL.md#reports",
     ),
     "Task implementation and PR": (
         "Forge",
-        "plugins/valcraft/skills/valcraft-forge/references/verification-and-handoff.md#forge-report",
+        "plugins/aicraft/skills/aicraft-forge/references/verification-and-handoff.md#forge-report",
     ),
     "Code verdict": (
         "Review",
-        "plugins/valcraft/skills/valcraft-review/SKILL.md#reports",
+        "plugins/aicraft/skills/aicraft-review/SKILL.md#reports",
     ),
     "Finalization or evidence record": (
         "Land",
-        "plugins/valcraft/skills/valcraft-land/SKILL.md#report",
+        "plugins/aicraft/skills/aicraft-land/SKILL.md#report",
     ),
     "Evidence-sufficiency verdict": (
         "Review",
-        "plugins/valcraft/skills/valcraft-review/references/evidence-mode.md#evidence-sufficiency-report",
+        "plugins/aicraft/skills/aicraft-review/references/evidence-mode.md#evidence-sufficiency-report",
     ),
     "Retrospective report": (
         "Temper",
-        "plugins/valcraft/skills/valcraft-temper/SKILL.md#report",
+        "plugins/aicraft/skills/aicraft-temper/SKILL.md#report",
     ),
     "Retrospective verdict": (
         "Review",
-        "plugins/valcraft/skills/valcraft-review/SKILL.md#reports",
+        "plugins/aicraft/skills/aicraft-review/SKILL.md#reports",
     ),
 }
 
@@ -589,7 +589,7 @@ def check_backend_conformance(root: Path, errors: list[str]) -> None:
             )
             continue
         conformance_evals[eval_id] = name
-        eval_path = str(path.relative_to(Path("plugins/valcraft/skills/valcraft-foreman")))
+        eval_path = str(path.relative_to(Path("plugins/aicraft/skills/aicraft-foreman")))
         if eval_path not in evals[eval_id].get("files", []):
             errors.append(
                 f"Foreman eval {eval_id} does not load backend conformance reference: "

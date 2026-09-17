@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Keep the shipped migration ledger and the release manifests in step.
 
-The newest `## vX.Y.Z` heading in valcraft-tune/references/migrations.md is the
-plugin version Tune compares against `valcraft_version`, so it must equal the
+The newest `## vX.Y.Z` heading in aicraft-tune/references/migrations.md is the
+plugin version Tune compares against `aicraft_version`, so it must equal the
 version in the portable, Codex, and Cursor manifests, and every change under a
 release must carry the three labels the migration procedure reads.
 """
@@ -15,8 +15,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PLUGIN = ROOT / "plugins" / "valcraft"
-LEDGER = PLUGIN / "skills" / "valcraft-tune" / "references" / "migrations.md"
+PLUGIN = ROOT / "plugins" / "aicraft"
+LEDGER = PLUGIN / "skills" / "aicraft-tune" / "references" / "migrations.md"
 MANIFESTS = [
     PLUGIN / "plugin.json",
     PLUGIN / ".codex-plugin" / "plugin.json",

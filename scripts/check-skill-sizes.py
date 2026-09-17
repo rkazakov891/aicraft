@@ -12,7 +12,7 @@ from pathlib import Path
 
 LIMIT = 8000
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ROOT / "plugins" / "valcraft" / "skills"
+SKILLS = ROOT / "plugins" / "aicraft" / "skills"
 
 
 def main() -> int:
