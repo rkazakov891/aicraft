@@ -1,4 +1,4 @@
-# Developing valcraft
+# Developing aicraft
 
 ## Live editing
 
@@ -7,7 +7,7 @@
 Editing a skill in a clone does not affect installed sessions (the cache holds a copy). For live editing, start a session against the plugin directory and reload after each edit:
 
 ```bash
-claude --plugin-dir /path/to/valcraft/plugins/valcraft
+claude --plugin-dir /path/to/aicraft/plugins/aicraft
 # edit a SKILL.md, then in-session:
 /reload-plugins
 ```
@@ -17,18 +17,18 @@ claude --plugin-dir /path/to/valcraft/plugins/valcraft
 Register the checkout as a local marketplace, then install its cached plugin copy:
 
 ```bash
-codex plugin marketplace add /path/to/valcraft
-codex plugin add valcraft@valcraft
+codex plugin marketplace add /path/to/aicraft
+codex plugin add aicraft@aicraft
 ```
 
-Re-run `codex plugin add valcraft@valcraft` and start a new Codex session after edits. A local marketplace installation is still a copy; it does not read later edits live.
+Re-run `codex plugin add aicraft@aicraft` and start a new Codex session after edits. A local marketplace installation is still a copy; it does not read later edits live.
 
 ### Cursor
 
 Start an isolated Agent session against the plugin directory:
 
 ```bash
-agent --plugin-dir /path/to/valcraft/plugins/valcraft
+agent --plugin-dir /path/to/aicraft/plugins/aicraft
 ```
 
 `--plugin-dir` reads the checkout. The CLI has no plugin-reload command. After a `SKILL.md` edit in an IDE session that is not using `--plugin-dir`, reload the window. A team-marketplace install is a cached copy and does not read later checkout edits. Use a disposable Teams or Enterprise marketplace for install-path checks; never write the operator's live `~/.cursor` plugin set or team marketplace without approval.
@@ -37,8 +37,8 @@ agent --plugin-dir /path/to/valcraft/plugins/valcraft
 
 - `.claude-plugin/marketplace.json` — Claude Code marketplace manifest.
 - `.agents/plugins/marketplace.json` — Codex repository marketplace manifest.
-- `.cursor-plugin/marketplace.json` — Cursor team-marketplace catalog (`metadata.pluginRoot: "plugins"`, plugin `source: "valcraft"`).
-- `plugins/valcraft/` — the plugin: native Claude Code, Codex, and Cursor manifests, the portable Agent Plugins manifest, and `skills/<skill>/SKILL.md` with each skill's `references/`, `templates/`, and `evals/`. Only this subtree ships to consumers.
+- `.cursor-plugin/marketplace.json` — Cursor team-marketplace catalog (`metadata.pluginRoot: "plugins"`, plugin `source: "aicraft"`).
+- `plugins/aicraft/` — the plugin: native Claude Code, Codex, and Cursor manifests, the portable Agent Plugins manifest, and `skills/<skill>/SKILL.md` with each skill's `references/`, `templates/`, and `evals/`. Only this subtree ships to consumers.
 - `scripts/` — standard-library repository checks and generated-artifact builders; these development tools do not ship in the plugin.
 - `docs/`, `AGENTS.md` — repository documentation and agent instructions; never installed.
 
@@ -48,48 +48,48 @@ The tracked-content neutrality rule is defined in [AGENTS.md](../AGENTS.md#chang
 
 The plugin ships four manifests over one shared `skills/` tree:
 
-- `plugins/valcraft/.claude-plugin/plugin.json` — Claude Code's plugin manifest.
-- `plugins/valcraft/.codex-plugin/plugin.json` — Codex's native plugin manifest and the source of `interface`, including `defaultPrompt`, in Codex 0.149.1.
-- `plugins/valcraft/.cursor-plugin/plugin.json` — Cursor's native plugin manifest. Marketplace resolution looks for `pluginRoot/source/.cursor-plugin/plugin.json`. Folder discovery loads `skills/`. The Cursor schema allows `author.name` and optional `author.email` only.
-- `plugins/valcraft/plugin.json` — the portable [Agent Plugins](https://github.com/agentplugins/agent-plugins-spec) manifest (v1.0.0) for hosts that implement that specification and the source of the Codex installation version when both Codex manifest paths exist.
+- `plugins/aicraft/.claude-plugin/plugin.json` — Claude Code's plugin manifest.
+- `plugins/aicraft/.codex-plugin/plugin.json` — Codex's native plugin manifest and the source of `interface`, including `defaultPrompt`, in Codex 0.149.1.
+- `plugins/aicraft/.cursor-plugin/plugin.json` — Cursor's native plugin manifest. Marketplace resolution looks for `pluginRoot/source/.cursor-plugin/plugin.json`. Folder discovery loads `skills/`. The Cursor schema allows `author.name` and optional `author.email` only.
+- `plugins/aicraft/plugin.json` — the portable [Agent Plugins](https://github.com/agentplugins/agent-plugins-spec) manifest (v1.0.0) for hosts that implement that specification and the source of the Codex installation version when both Codex manifest paths exist.
 
-Keep shared metadata synchronized by hand. Keep the portable, native Codex, and native Cursor versions synchronized, but treat the version as release metadata rather than a cachebuster. Codex 0.149.1 reads the native manifest's `interface`, including `defaultPrompt`, while using the portable manifest's version; it discovers this plugin's default `skills/` tree automatically. Do not assume other native-only fields merge. Add future harness-specific manifests beside these rather than adding unsupported fields to the portable manifest. The lint workflow validates the Cursor marketplace and native manifests against the schemas published in `cursor/plugins`. `scripts/check-cursor-marketplace.py` then requires `owner.name`, joins `metadata.pluginRoot` with each catalog `source` unless that source already starts with the root, and requires the resolved `.cursor-plugin/plugin.json` to be `plugins/valcraft/.cursor-plugin/plugin.json` with a matching `name`.
+Keep shared metadata synchronized by hand. Keep the portable, native Codex, and native Cursor versions synchronized, but treat the version as release metadata rather than a cachebuster. Codex 0.149.1 reads the native manifest's `interface`, including `defaultPrompt`, while using the portable manifest's version; it discovers this plugin's default `skills/` tree automatically. Do not assume other native-only fields merge. Add future harness-specific manifests beside these rather than adding unsupported fields to the portable manifest. The lint workflow validates the Cursor marketplace and native manifests against the schemas published in `cursor/plugins`. `scripts/check-cursor-marketplace.py` then requires `owner.name`, joins `metadata.pluginRoot` with each catalog `source` unless that source already starts with the root, and requires the resolved `.cursor-plugin/plugin.json` to be `plugins/aicraft/.cursor-plugin/plugin.json` with a matching `name`.
 
 Codex 0.149.1 limits each model-visible `SKILL.md` to 8,000 UTF-8 bytes and truncates the remainder. Keep every shipped `SKILL.md` at or below that limit. Move detailed procedures into one-level `references/` files and make the load condition explicit in the skill body. `scripts/check-skill-sizes.py` enforces the ceiling; CI runs it in the lint workflow.
 
 Validate the Codex plugin with the validator shipped by the system `plugin-creator` skill:
 
 ```bash
-python3 ~/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py plugins/valcraft
+python3 ~/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py plugins/aicraft
 ```
 
 ## OpenCode skills source
 
-OpenCode installs nothing: `skills.urls` in `opencode.json` points at a directory that serves `index.json` and the skill files. `plugins/valcraft/skills/index.json` is that index, generated by `scripts/build-skills-index.py` — one entry per skill with its shipped files (`SKILL.md`, `references/`, `templates/`, `agents/`; never `evals/`) and a `version` that is a content hash of those files, so OpenCode re-downloads a skill only when something in it changed. Regenerate it after any shipped-file change; CI runs the script with `--check` and fails on a stale index.
+OpenCode installs nothing: `skills.urls` in `opencode.json` points at a directory that serves `index.json` and the skill files. `plugins/aicraft/skills/index.json` is that index, generated by `scripts/build-skills-index.py` — one entry per skill with its shipped files (`SKILL.md`, `references/`, `templates/`, `agents/`; never `evals/`) and a `version` that is a content hash of those files, so OpenCode re-downloads a skill only when something in it changed. Regenerate it after any shipped-file change; CI runs the script with `--check` and fails on a stale index.
 
-Verified against OpenCode 1.18.15 (config shape `skills.urls`; the v2 config spec uses a flat `skills` array). To test a branch before merge, serve the directory locally (`python3 -m http.server`, from `plugins/valcraft/skills/`) and point a scratch project's `opencode.json` at it; the pulled copies land in `~/.cache/opencode/skills/<name>/` with `.opencode-version` holding the hash.
+Verified against OpenCode 1.18.15 (config shape `skills.urls`; the v2 config spec uses a flat `skills` array). To test a branch before merge, serve the directory locally (`python3 -m http.server`, from `plugins/aicraft/skills/`) and point a scratch project's `opencode.json` at it; the pulled copies land in `~/.cache/opencode/skills/<name>/` with `.opencode-version` holding the hash.
 
 ## Evals
 
-Each skill carries `evals/evals.json` (prompt, fixtures under `evals/files/`, expected output, assertions). Run them with the skill-creator skill: "run the evals for `plugins/valcraft/skills/<skill>`", with the workspace directed to `.local/`.
+Each skill carries `evals/evals.json` (prompt, fixtures under `evals/files/`, expected output, assertions). Run them with the skill-creator skill: "run the evals for `plugins/aicraft/skills/<skill>`", with the workspace directed to `.local/`.
 
 ## Delivery contract coverage
 
 Spec readiness includes evidence for consequential existing-code assumptions and task ownership of every substantive acceptance-criterion clause. Review checks that evidence independently across the triplet. These checks distinguish current facts from proposed implementation; they require no separate claim ledger.
 
-Once a contract is present on the default branch, Spec amends it on the in-progress task's branch when the fix passes the scope test, and that task's plan reviewer closes the R-IDs in its closure check; otherwise Spec commits on a short-lived amendment branch cut from the reconciled default branch with its own spec PR. No Spec ref is retained between landings, and Land deletes every merged head branch. See Spec's [delivery contract](../plugins/valcraft/skills/valcraft-spec/references/delivery.md#amend-a-landed-contract).
+Once a contract is present on the default branch, Spec amends it on the in-progress task's branch when the fix passes the scope test, and that task's plan reviewer closes the R-IDs in its closure check; otherwise Spec commits on a short-lived amendment branch cut from the reconciled default branch with its own spec PR. No Spec ref is retained between landings, and Land deletes every merged head branch. See Spec's [delivery contract](../plugins/aicraft/skills/aicraft-spec/references/delivery.md#amend-a-landed-contract).
 
-Foreman reloads configuration and contracts after context reset and records effective worker-setting provenance, including local overrides. Herdr's [startup-exit recovery](../plugins/valcraft/skills/valcraft-foreman/references/backends/herdr.md#exit-before-the-first-assignment) permits pane reuse only before submission, with a new session identity under the existing attempt policy. Submitted work retains normal reconciliation and recovery.
+Foreman reloads configuration and contracts after context reset and records effective worker-setting provenance, including local overrides. Herdr's [startup-exit recovery](../plugins/aicraft/skills/aicraft-foreman/references/backends/herdr.md#exit-before-the-first-assignment) permits pane reuse only before submission, with a new session identity under the existing attempt policy. Submitted work retains normal reconciliation and recovery.
 
 Draft names effective verification prerequisites; Forge proves the applicable environment and intended candidate before accepting browser results. Test these decisions with consumer-neutral scenarios. Keep actual environment values and setup recipes in the consumer repository.
 
-Foreman reads a producer report by its heading index, terminal status line, and the sections [Coordinator reads](../plugins/valcraft/skills/valcraft-foreman/references/contracts.md#coordinator-reads) names; the body stays on disk for the next worker. On resume it reads the latest checkpoint, not the log. Under a Claude Code controller the Herdr backend awaits through the harness's persistent background monitor and wakes on `agent wait` exit instead of re-arming a bounded foreground wait; the static check requires every coordinator-read row to name a registered message and only headings from that report's fingerprint.
+Foreman reads a producer report by its heading index, terminal status line, and the sections [Coordinator reads](../plugins/aicraft/skills/aicraft-foreman/references/contracts.md#coordinator-reads) names; the body stays on disk for the next worker. On resume it reads the latest checkpoint, not the log. Under a Claude Code controller the Herdr backend awaits through the harness's persistent background monitor and wakes on `agent wait` exit instead of re-arming a bounded foreground wait; the static check requires every coordinator-read row to name a registered message and only headings from that report's fingerprint.
 
 Forge runs targeted suites while iterating and the full gate once per pushed head. Land classifies checks only from applicable sources matched to the exact head and never runs a gate itself. A live operator message may declare standing decisions that answer a named owner question, the round-cap escalation, or an explicit-operation row in advance; Foreman applies one only on an exact subject match and records each application. Under Herdr a producer whose accepted report is a prepared mutation continuation receives that continuation in its own pane; remediation always spawns fresh.
 
 ## Migrations
 
-`.valcraft/config.yaml` records `valcraft_version`, the plugin version the repository was last migrated to. Tune's [`migrations.md`](../plugins/valcraft/skills/valcraft-tune/references/migrations.md) ships with the skill and holds one heading per release, newest first, so every harness, including OpenCode, sees the current version without a manifest. `config.md` classifies an absent or older value as `outdated` and a newer one as `plugin outdated`; both are invalid, so the producers' existing delegation to Tune upgrades a repository without a version check of their own. Bare Tune on an outdated base runs the ledger's procedure, writes the newest version, and commits. `scripts/check-migrations.py` keeps the newest heading equal to the three manifest versions and every entry in the runnable shape; the version bump therefore lands in the same change as the entry.
+`.aicraft/config.yaml` records `aicraft_version`, the plugin version the repository was last migrated to. Tune's [`migrations.md`](../plugins/aicraft/skills/aicraft-tune/references/migrations.md) ships with the skill and holds one heading per release, newest first, so every harness, including OpenCode, sees the current version without a manifest. `config.md` classifies an absent or older value as `outdated` and a newer one as `plugin outdated`; both are invalid, so the producers' existing delegation to Tune upgrades a repository without a version check of their own. Bare Tune on an outdated base runs the ledger's procedure, writes the newest version, and commits. `scripts/check-migrations.py` keeps the newest heading equal to the three manifest versions and every entry in the runnable shape; the version bump therefore lands in the same change as the entry.
 
 ## Coordination-contract drift
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write plugins/valcraft/skills/index.json — the OpenCode remote skills index.
+"""Write plugins/aicraft/skills/index.json — the OpenCode remote skills index.
 
 OpenCode's `skills.urls` (v1 config) / `skills` (v2 config) fetches `<url>/index.json`,
 then `<url>/<name>/<file>` for every listed file, and refreshes a cached skill when its
@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ROOT / "plugins" / "valcraft" / "skills"
+SKILLS = ROOT / "plugins" / "aicraft" / "skills"
 INDEX = SKILLS / "index.json"
 SHIPPED_DIRS = ("references", "templates", "agents")
 

@@ -1,0 +1,4 @@
+.eval/
+/.aicraft/*
+!/.aicraft/config.yaml
+eval-tools/

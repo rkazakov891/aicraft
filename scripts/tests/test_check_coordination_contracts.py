@@ -13,25 +13,25 @@ from pathlib import Path
 REPOSITORY = Path(__file__).resolve().parents[2]
 CHECKER = REPOSITORY / "scripts" / "check-coordination-contracts.py"
 PRODUCERS = (
-    "valcraft-cast",
-    "valcraft-draft",
-    "valcraft-forge",
-    "valcraft-review",
-    "valcraft-land",
-    "valcraft-spec",
-    "valcraft-temper",
+    "aicraft-cast",
+    "aicraft-draft",
+    "aicraft-forge",
+    "aicraft-review",
+    "aicraft-land",
+    "aicraft-spec",
+    "aicraft-temper",
 )
-CONTRACTS = "plugins/valcraft/skills/valcraft-foreman/references/contracts.md"
-DRAFT_CONTRACT = "plugins/valcraft/skills/valcraft-draft/references/plan-contract.md"
-BACKENDS = "plugins/valcraft/skills/valcraft-foreman/references/backends/README.md"
-SUBAGENTS = "plugins/valcraft/skills/valcraft-foreman/references/backends/subagents.md"
-FOREMAN_EVALS = "plugins/valcraft/skills/valcraft-foreman/evals/evals.json"
-FOREMAN_SKILL = "plugins/valcraft/skills/valcraft-foreman/SKILL.md"
-HERDR = "plugins/valcraft/skills/valcraft-foreman/references/backends/herdr.md"
-LOOP = "plugins/valcraft/skills/valcraft-foreman/references/loop.md"
-TUNE_CONFIG = "plugins/valcraft/skills/valcraft-tune/references/config.md"
+CONTRACTS = "plugins/aicraft/skills/aicraft-foreman/references/contracts.md"
+DRAFT_CONTRACT = "plugins/aicraft/skills/aicraft-draft/references/plan-contract.md"
+BACKENDS = "plugins/aicraft/skills/aicraft-foreman/references/backends/README.md"
+SUBAGENTS = "plugins/aicraft/skills/aicraft-foreman/references/backends/subagents.md"
+FOREMAN_EVALS = "plugins/aicraft/skills/aicraft-foreman/evals/evals.json"
+FOREMAN_SKILL = "plugins/aicraft/skills/aicraft-foreman/SKILL.md"
+HERDR = "plugins/aicraft/skills/aicraft-foreman/references/backends/herdr.md"
+LOOP = "plugins/aicraft/skills/aicraft-foreman/references/loop.md"
+TUNE_CONFIG = "plugins/aicraft/skills/aicraft-tune/references/config.md"
 PRIOR_STATE_PRESENTATION_CONTRACT = (
-    "Never replay another Valcraft skill's report. Omit unrelated prior state. "
+    "Never replay another AiCraft skill's report. Omit unrelated prior state. "
     "When relevant prior state is necessary, summarize it in one prose paragraph "
     "containing only the prior outcome, exact target, relevant blocker or handoff, "
     "and one suggested next action. The suggested action is advisory and grants no "
@@ -39,8 +39,8 @@ PRIOR_STATE_PRESENTATION_CONTRACT = (
 )
 FORGE_MESSAGE_ROW = (
     "| Task implementation and PR | Forge | Foreman, Review | "
-    "[`../../valcraft-forge/references/verification-and-handoff.md#forge-report`]"
-    "(../../valcraft-forge/references/verification-and-handoff.md#forge-report) | "
+    "[`../../aicraft-forge/references/verification-and-handoff.md#forge-report`]"
+    "(../../aicraft-forge/references/verification-and-handoff.md#forge-report) | "
     "Implementing | `ForgeResult` |\n"
 )
 
@@ -49,10 +49,10 @@ class CoordinationContractCheckTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary_directory = tempfile.TemporaryDirectory()
         self.root = Path(self.temporary_directory.name)
-        source = REPOSITORY / "plugins" / "valcraft" / "skills"
-        target = self.root / "plugins" / "valcraft" / "skills"
+        source = REPOSITORY / "plugins" / "aicraft" / "skills"
+        target = self.root / "plugins" / "aicraft" / "skills"
         target.mkdir(parents=True)
-        for skill in ("valcraft-foreman", "valcraft-tune", *PRODUCERS):
+        for skill in ("aicraft-foreman", "aicraft-tune", *PRODUCERS):
             shutil.copytree(source / skill, target / skill)
 
     def tearDown(self) -> None:
@@ -85,16 +85,16 @@ class CoordinationContractCheckTests(unittest.TestCase):
     def test_broken_registry_contract_link_fails(self) -> None:
         self.replace(
             CONTRACTS,
-            "](../../valcraft-draft/references/plan-contract.md#report)",
-            "](../../valcraft-draft/references/missing.md#report)",
+            "](../../aicraft-draft/references/plan-contract.md#report)",
+            "](../../aicraft-draft/references/missing.md#report)",
         )
         self.assert_check_fails("contract link does not resolve")
 
     def test_broken_registry_contract_anchor_fails(self) -> None:
         self.replace(
             CONTRACTS,
-            "](../../valcraft-draft/references/plan-contract.md#report)",
-            "](../../valcraft-draft/references/plan-contract.md#missing-anchor)",
+            "](../../aicraft-draft/references/plan-contract.md#report)",
+            "](../../aicraft-draft/references/plan-contract.md#missing-anchor)",
         )
         self.assert_check_fails("contract anchor does not resolve")
 

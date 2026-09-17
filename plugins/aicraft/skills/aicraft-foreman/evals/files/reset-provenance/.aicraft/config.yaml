@@ -1,0 +1,54 @@
+aicraft_version: "0.8.2"
+
+tracker:
+  mode: local
+foreman:
+  backend: herdr
+  approval_mode: unattended
+  default_branch: main
+  release_branch: null
+  herdr:
+    session: null
+    workers:
+      spec:
+        harness: codex
+        model: codex-model-a
+        effort: medium
+      spec_review:
+        harness: claude
+        model: claude-model-a
+        effort: medium
+      draft:
+        harness: codex
+        model: codex-model-a
+        effort: medium
+      plan_review:
+        harness: claude
+        model: claude-model-a
+        effort: medium
+      forge:
+        harness: claude
+        model: claude-model-a
+        effort: medium
+      code_review:
+        harness: codex
+        model: codex-model-a
+        effort: medium
+      land:
+        harness: claude
+        model: claude-model-a
+        effort: medium
+      temper:
+        harness: claude
+        model: claude-model-a
+        effort: medium
+      retro_review:
+        harness: codex
+        model: codex-model-a
+        effort: medium
+      evidence_review:
+        harness: codex
+        model: codex-model-a
+        effort: medium
+pull_requests:
+  merge_strategy: squash

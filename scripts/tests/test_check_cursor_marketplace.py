@@ -14,7 +14,7 @@ from pathlib import Path
 REPOSITORY = Path(__file__).resolve().parents[2]
 CHECKER = REPOSITORY / "scripts" / "check-cursor-marketplace.py"
 MARKETPLACE = Path(".cursor-plugin") / "marketplace.json"
-PLUGIN = Path("plugins") / "valcraft" / ".cursor-plugin" / "plugin.json"
+PLUGIN = Path("plugins") / "aicraft" / ".cursor-plugin" / "plugin.json"
 
 
 class CursorMarketplaceCheckTests(unittest.TestCase):
