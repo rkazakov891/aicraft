@@ -38,7 +38,7 @@ python3 "$DISCOVER_SKILL/scripts/discovery.py" handoff docs/discovery/DISC-001/m
 
 The last command requires accepted and committed input artifacts and reviews. It never manufactures approval. Source changes, stale review targets, unresolved findings, missing lineage, unsafe paths, and unresolved GitHub mappings fail closed. Generated views refuse to overwrite different historical output; use a unique view directory for each reviewed snapshot.
 
-`projection --inventory <path>` accepts a complete normalized issue inventory and returns a create/update/unchanged proposal. It performs no network writes. `return-check <report> --assignment <expected-envelope>` verifies worker attribution, declared status, revision, and file hashes; Foreman still validates commit reachability and semantic gate evidence.
+`projection --inventory <path>` accepts a complete normalized issue inventory and returns a create/update/unchanged proposal. It performs no network writes. `return-check <report> --assignment <expected-envelope>` verifies worker attribution, declared status, revision, and file hashes; Foreman still validates commit reachability and semantic gate evidence. For isolated reviews, `--coordination-root` locates the main checkout containing the transport report and trusted envelope, while `--root` locates the reviewer worktree containing the actual output files. Neither root relaxes path containment.
 
 ## Spec handoff
 
@@ -48,6 +48,6 @@ After handoff, Spec owns current scenario behavior. Accepted Discovery remains h
 
 ## Backend and verification boundaries
 
-The prelude binds Discover to existing `spec` settings, and Product Review/Trace to separate workers using `spec_review` settings. It preserves the existing cross-harness requirement without adding mandatory configuration keys. Independent snapshot worktrees may support concurrent reviews when the runtime can verify their cwd; otherwise dispatch stays serial. This is not parallel implementation support.
+The prelude binds Discover to existing `spec` settings, and Product Review/Trace to separate workers using `spec_review` settings. It preserves the existing cross-harness requirement without adding mandatory configuration keys. Independent snapshot worktrees may support concurrent reviews when the runtime can verify their cwd; otherwise dispatch stays serial. This is not parallel implementation support. Codex workers whose native session ID appears only after their first turn receive a fixed no-tools identity initialization before any product assignment. Foreman records actual UTC events for dispatches, returns, and gates; model estimates are not timing evidence.
 
 The deterministic suite exercises artifact behavior, Git handoffs, interruption/resume identity, issue reconciliation, revision invalidation, and generated output. Agent eval prompts live with the new skills. Passing the script suite does not prove a live Herdr conversation, semantic review quality, or real GitHub publication. Record actual runtime results separately and never claim unexecuted evals passed.

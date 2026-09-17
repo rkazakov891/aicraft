@@ -21,7 +21,7 @@
     },
     {
       "name": "aicraft-discover",
-      "version": "5178e6c5d26afe3b",
+      "version": "023654b3c2f9bec5",
       "files": [
         "SKILL.md",
         "references/artifacts.md",
@@ -54,7 +54,7 @@
     },
     {
       "name": "aicraft-foreman",
-      "version": "81ffb7e965878900",
+      "version": "4ce99ab9b509eab1",
       "files": [
         "SKILL.md",
         "references/approval-modes.md",
@@ -71,7 +71,8 @@
         "references/loop.md",
         "references/review-round.md",
         "templates/run-dir.md",
-        "agents/openai.yaml"
+        "agents/openai.yaml",
+        "scripts/runtime.py"
       ]
     },
     {

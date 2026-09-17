@@ -23,6 +23,8 @@ Create one gitignored directory per Foreman run:
 
 `<run-id>` is either the next repository-valid dated run id or an operator-provided name matching `^[A-Za-z0-9][A-Za-z0-9._-]*$` other than `.` or `..`. Resolve the final path inside `.aicraft/foreman/`. A run id never supplies an artifact date.
 
+The opt-in Discovery prelude also records measured `events.jsonl` using its runtime helper. Timestamps and durations come from clock observations, never from model estimates.
+
 ## `workers.md`
 
 Append one row for every physical dispatch:

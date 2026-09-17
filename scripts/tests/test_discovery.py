@@ -244,6 +244,32 @@ class DiscoveryTests(unittest.TestCase):
         with self.assertRaisesRegex(d.Invalid, "collision"):
             d.validate_inventory(self.root, self.manifest, self.bundle)
 
+    def test_isolated_return_checks_actual_worktree_without_copying(self):
+        expected = {"assignment_id": "A-2", "worker_id": "worker-2", "role": "trace",
+                    "discovery": "DISC-001", "manifest": self.manifest, "revision": "new"}
+        report = dict(expected, schema_version=1, status="done", artifacts=[self.bundle["nodes"][0]],
+                      open_findings=[], commit="a" * 40, question=None)
+        with tempfile.TemporaryDirectory() as coordination:
+            coord = Path(coordination)
+            (coord / "return.json").write_text(json.dumps(report))
+            (coord / "expected.json").write_text(json.dumps(expected))
+            cmd = [sys.executable, str(SCRIPT), "return-check", "return.json",
+                   "--assignment", "expected.json", "--coordination-root", coordination,
+                   "--root", str(self.root)]
+            passed = subprocess.run(cmd, capture_output=True, text=True)
+            self.assertEqual(passed.returncode, 0, passed.stderr)
+            self.write(self.bundle["nodes"][0]["path"], "changed after review")
+            rejected = subprocess.run(cmd, capture_output=True, text=True)
+            self.assertNotEqual(rejected.returncode, 0)
+            self.assertIn("changed artifact", rejected.stderr)
+            report["artifacts"][0]["path"] = "../return.json"
+            (coord / "return.json").write_text(json.dumps(report))
+            rejected = subprocess.run(cmd, capture_output=True, text=True)
+            self.assertIn("unsafe artifact path", rejected.stderr)
+            cmd[3] = "../return.json"
+            rejected = subprocess.run(cmd, capture_output=True, text=True)
+            self.assertIn("unsafe artifact path", rejected.stderr)
+
     def test_late_worker_and_stale_revision_returns_are_rejected(self):
         expected = {"assignment_id": "A-2", "worker_id": "worker-2", "role": "trace",
                     "discovery": "DISC-001", "manifest": self.manifest, "revision": "new"}

@@ -368,18 +368,22 @@ def main(argv=None):
     parser.add_argument("--commit", default="HEAD")
     parser.add_argument("--inventory", help="complete normalized issue inventory JSON")
     parser.add_argument("--assignment", help="trusted expected assignment JSON for return-check")
+    parser.add_argument("--coordination-root", type=Path, help="Foreman root for return-check report and assignment; artifacts stay under --root")
     parser.add_argument("--feature", help="feature ID for spec-adoption")
     parser.add_argument("--spec-path", help="canonical spec path for spec-adoption")
     args = parser.parse_args(argv)
     try:
         root = args.root.resolve()
-        bundle = read_json(path_in(root, args.manifest))
         if args.command == "return-check":
             require(args.assignment is not None, "return-check requires --assignment")
-            expected = read_json(path_in(root, args.assignment))
+            coordination = (args.coordination_root or root).resolve()
+            bundle = read_json(path_in(coordination, args.manifest))
+            expected = read_json(path_in(coordination, args.assignment))
             status = validate_return(root, expected, bundle)
             print(json.dumps({"status": status, "assignment_id": expected["assignment_id"]}))
             return 0
+        require(args.coordination_root is None, "--coordination-root is only valid for return-check")
+        bundle = read_json(path_in(root, args.manifest))
         revision = validate(root, bundle, "accepted" if args.command in {"handoff", "spec-adoption"} else args.gate)
         validate_inventory(root, args.manifest, bundle)
         result = {"discovery": bundle["id"], "revision": revision, "gate": args.gate}

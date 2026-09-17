@@ -88,7 +88,7 @@ The discovery prelude uses a separate JSON report rather than changing existing 
 
 Role is discover, product_review, or trace. Status is done, waiting_user, changes_requested, blocked, or prepared. `artifacts` contains path/hash references; reviewer results include their durable report reference. `question` names a missing decision or authority and its source. `prepared` names exact proposed outward operations; it never means they succeeded. `next` is advisory; only the prelude's transition rules route work. Reviewers report their isolated output commit when applicable; the reviewed input SHA is also recorded in the durable review. Foreman verifies the assignment envelope and target rather than accepting a producer's claimed next stage.
 
-`return-check <report> --assignment <expected-envelope>` validates attributed worker fields and output hashes before routing. The expected envelope must come from Foreman's checkpoint, not the producer. `spec-adoption` prepares the same-issue Spec block using a complete normalized inventory; it never creates an issue.
+`return-check <report> --assignment <expected-envelope>` validates attributed worker fields and output hashes before routing. The expected envelope must come from Foreman's checkpoint, not the producer. For isolated review worktrees, Foreman passes `--coordination-root <main-checkout>` for report/envelope paths and `--root <reviewer-worktree>` for artifact paths; both are trusted assignment inputs. Paths must remain relative to their corresponding root, and containment applies independently to each root. `spec-adoption` prepares the same-issue Spec block using a complete normalized inventory; it never creates an issue.
 
 ## Handoff ownership
 

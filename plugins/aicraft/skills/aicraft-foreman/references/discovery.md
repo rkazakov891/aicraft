@@ -8,6 +8,8 @@ Resolve configuration and backend readiness, acquire the same project controller
 
 Use the normal assignment envelope with a discovery target instead of a task target and the JSON return defined in `../../aicraft-discover/references/artifacts.md`. Maintain state.md and workers.md with assignment IDs, physical identities, report paths, skill content revisions, source snapshots, attributed operator answers, and exact allowed operations. Workers return a report path and status; Foreman reads coordination fields rather than full product bodies.
 
+Before each dispatch, return, and gate, append a measured event with `python3 <foreman-skill-dir>/scripts/runtime.py event <run-dir>/events.jsonl <event-name> --data <coordination-data.json>`. The data file is optional and contains IDs and pointers, not secrets. Cross-process elapsed intervals use the observed UTC timestamps; clock adjustments invalidate elapsed estimates, and process-local clock values must not be compared across invocations. Copy the emitted UTC timestamp into the corresponding state.md checkpoint; do not estimate timestamps or elapsed durations. Preserve old erroneous checkpoints and append a correction linked to measured observations.
+
 No new required configuration keys are introduced. Explicit role bindings are:
 
 | Prelude role | Skill | Existing Herdr worker settings |
@@ -46,6 +48,8 @@ The shared-checkout backend remains serial by default. To overlap product review
 Use Herdr's recorded pane/workspace creation mechanism from its backend contract with each isolated cwd. Require the runtime's observed cwd to match before submission. If this cannot be established, keep these reviews serial and report the limitation; do not run two writers in the shared checkout. Each reviewer may commit only its own report/view outputs. It must not modify input documents, the manifest, tracker state, or any branch used by another worker.
 
 For this review group, record an active-assignment map keyed by assignment ID rather than overwriting a single active worker. Each entry keeps its input revision, worktree, physical identity, report path, wait handle, and outcome. Match events only to that entry; one worker's completion never completes the group. The display may retain one in-progress DiscoveryReview stage while its two assignments run. Resume both entries from observed identities and attributed outputs before replacing either worker. This scoped group contract overrides the legacy single-active-worker assumption only during isolated Discovery reviews.
+
+For isolated reviewer returns, invoke `return-check <report-relative-to-coordination-root> --assignment <expected-envelope-relative-to-coordination-root> --coordination-root <main-checkout> --root <reviewer-worktree>`. Foreman supplies both trusted roots; report and envelope paths stay inside the coordination root, while artifact paths and hashes are checked against the actual reviewer worktree. Do not copy artifacts into a synthetic validation tree or weaken path containment.
 
 After both settle, Discover imports the verified output-only commits sequentially, checks hashes and allowed-path diffs, records references, and commits the manifest. If output paths overlap existing history or source bytes changed, preserve the outputs and request reconciliation. Integration must not manufacture a passing review for a different revision. Never remove a worktree or pane with unresolved output. Concurrent implementation remains unsupported in this delivery.
 
