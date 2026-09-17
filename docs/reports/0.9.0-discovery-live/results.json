@@ -1,0 +1,391 @@
+{
+  "release": "0.9.0 (development)",
+  "initial_plugin_commit": "84fb88037632c29092e9c56dc92dda7b6e02e41b",
+  "corrected_plugin_commit": "df4dd471f1071be4e1e013d866f0f41088cad1bd",
+  "run_date": "2026-09-17",
+  "outcome": "PARTIAL \u2014 Discovery accepted; Spec stopped for product decisions",
+  "scope": "Actual Herdr Discovery-to-Spec exercise in an isolated fictional local repository; no application implementation or external tracker publication.",
+  "runtime": {
+    "herdr": "0.8.2",
+    "controller": "Claude, model alias opus, medium effort",
+    "producer": "Codex, gpt-5.6-sol, high effort",
+    "reviewers": "Independent Claude workers, model alias opus, medium effort"
+  },
+  "checks": [
+    {
+      "id": "LIVE-T01",
+      "name": "Bind native worker identity before product assignment",
+      "result": "recovered",
+      "evidence": "Initial dispatch violated the contract. Fixed bootstrap exercised on subsequent fresh Codex workers."
+    },
+    {
+      "id": "LIVE-T02",
+      "name": "Persist questions and block review until answered",
+      "result": "pass",
+      "evidence": "Initial review gate rejected two unresolved choices; answers resumed DISC-001 and SC-001/002/003."
+    },
+    {
+      "id": "LIVE-T03",
+      "name": "Run independent reviews on one snapshot in isolated worktrees",
+      "result": "pass",
+      "evidence": "Both reviewers used snapshot 03d86ec6099e35abfb7c636cc2cb4fbade504be3 and distinct native sessions, with overlapping work."
+    },
+    {
+      "id": "LIVE-T04",
+      "name": "Reject semantically incomplete but structurally valid scenarios",
+      "result": "pass",
+      "evidence": "Round one returned three product findings and two trace findings despite structural review gate success."
+    },
+    {
+      "id": "LIVE-T05",
+      "name": "Validate actual reviewer artifacts across separate roots",
+      "result": "recovered",
+      "evidence": "Initial checker rejected transport paths; explicit coordination root fixed direct validation of both preserved worktrees."
+    },
+    {
+      "id": "LIVE-T06",
+      "name": "Preserve reports and reject stale review approvals",
+      "result": "pass",
+      "evidence": "Reports imported with output-only diffs; scenario edits changed revision and required new reviews."
+    },
+    {
+      "id": "LIVE-T07",
+      "name": "Detect invented attribution and escalate unresolved choices",
+      "result": "pass",
+      "evidence": "Round two independently rejected new producer assumptions represented as supervisor input. Two-round cap escalated; new explicit answers recorded."
+    },
+    {
+      "id": "LIVE-T08",
+      "name": "Use measured checkpoint timestamps",
+      "result": "recovered",
+      "evidence": "Initial estimated timestamps retained as invalid evidence; runtime helper now emits actual UTC observations."
+    },
+    {
+      "id": "LIVE-T09",
+      "name": "Require exact reviewed revision acceptance",
+      "result": "pass",
+      "evidence": "At CP-023 confirm passed while accepted failed. Foreman stopped without dispatch; supervisor separately accepted exact revision ea8e36dabb50f416c1447ff6da5be7f759ee580d87a9fbad3e7e5f6e75e1cef1 and selected local Spec."
+    },
+    {
+      "id": "LIVE-T10",
+      "name": "Create one Spec from accepted canonical scenarios",
+      "result": "pass",
+      "evidence": "Spec created exactly one FEAT-001 triplet at 0e549f858aaa6a02a45b7e07348fe30569538b28; frontmatter records DISC-001 accepted commit/revision, and scenario links target original SC-001/002/003 files. Two open product questions remain and prevent implementation readiness."
+    },
+    {
+      "id": "LIVE-T11",
+      "name": "Independently review Spec and stop before implementation",
+      "result": "blocked",
+      "evidence": "Spec returned question: product_decision_required for OQ-001 (failure/retry interaction) and OQ-002 (CSV serialization/order). Foreman entered AwaitOwner, started neither Spec Review nor Forge, and preserved the unmerged local Spec branch."
+    },
+    {
+      "id": "LIVE-T12",
+      "name": "Render the revision-bound HTML navigator in a browser",
+      "result": "pass_with_limitations",
+      "evidence": "Headless Chrome produced a screenshot; visual inspection confirmed title, exact revision, source nodes and reverse links. The browser command timed out after 35 seconds, and interactive search/navigation were not exercised."
+    }
+  ],
+  "limitations": [
+    "This is a recovery run with source fixes, not a clean full rerun of one immutable plugin build.",
+    "Fictional supervisor answers do not constitute acceptance of a real product.",
+    "GitHub mutation, issue adoption in a live repository, PR merging and application acceptance are outside this run.",
+    "Cursor runtime and native skill namespace invocation are not exercised by this Herdr run.",
+    "Navigator screenshot proves rendering only. Browser process timed out after creating it; search and link interaction tests were not run."
+  ],
+  "findings": [
+    {
+      "id": "LIVE-001",
+      "kind": "backend-contract",
+      "state": "fixed-live-verified",
+      "claim": "Codex has no agent_session before its first turn; Foreman dispatched product work despite the required non-null identity.",
+      "evidence": "project/.aicraft/foreman/2026-09-17-discovery-01/state.md CP-002; observed pane w1:p2 acquired actual identity only after first prompt.",
+      "resolution": "Introduce a bounded no-product bootstrap or fail closed; bind the real assignment only after native session identity is observed.",
+      "verification": "A-002 and A-005 acquired actual native session through no-product bootstrap before assignment; run state CP-008 and CP-012."
+    },
+    {
+      "id": "LIVE-002",
+      "kind": "runtime-evidence",
+      "state": "fixed-live-verified",
+      "claim": "Controller checkpoint timestamps were estimated instead of sampled from the clock.",
+      "evidence": "CP-002 claims 2026-09-17T12:50:10Z; supervisor observed the already-written checkpoint before clock read 2026-09-17T12:48:49Z.",
+      "resolution": "Use a deterministic clock helper for persisted checkpoints; distinguish measured elapsed time from narrative estimates.",
+      "verification": "events.jsonl records actual UTC observations, referenced by later checkpoints. Old estimated timestamps preserved and excluded from elapsed analysis; removed cross-process monotonic values from future events."
+    },
+    {
+      "id": "LIVE-003",
+      "kind": "multi-worktree-return",
+      "state": "fixed-live-verified",
+      "claim": "return-check required transport report, trusted envelope and reviewer artifacts under one root despite separate worktrees.",
+      "evidence": "run state CP-011 records both unsafe-path failures and byte-identical scratch-copy workaround.",
+      "resolution": "Add explicit trusted --coordination-root for transport inputs, preserve --root for actual artifact worktree and containment in both; regression rejects changed bytes and traversal.",
+      "verification": "live003_reload_and_returncheck_validated at 2026-09-17T13:13:44.854957+00:00; direct A-003/A-004 checks against actual reviewer worktrees passed."
+    },
+    {
+      "id": "LIVE-004",
+      "kind": "product-attribution",
+      "state": "resolved-by-explicit-input-and-independent-reviews",
+      "claim": "Discovery remediation presented producer-inferred failure and size boundaries as confirmed test-supervisor input.",
+      "evidence": "PR-DISC-001-004 and TR-DISC-001-F-003 independently blocked second revision; round_cap_escalation stopped automatic continuation.",
+      "resolution": "Explicit new test-supervisor answers in answer-2.txt, independently re-review before any acceptance; historical false attribution retained in superseded evidence.",
+      "verification": "PR-DISC-001-r003 and TR-DISC-001-r003 both pass revision ea8e36dabb50f416c1447ff6da5be7f759ee580d87a9fbad3e7e5f6e75e1cef1 and retain all eight findings as resolved."
+    },
+    {
+      "id": "LIVE-005",
+      "kind": "handoff-report-label",
+      "state": "fixed-and-rechecked",
+      "claim": "Successful handoff validates the accepted gate but prints gate=draft from the unused default CLI option.",
+      "evidence": "Independent handoff of accepted commit 1880576b4e917849bac7b722a12c67b26093b72d returns gate=draft.",
+      "resolution": "Report the effective accepted gate for handoff and spec-adoption, with a regression assertion; validation behavior remains unchanged.",
+      "verification": "After stopping product work, direct handoff of accepted snapshot returns gate=accepted; all 25 artifact regression tests pass, including the output assertion."
+    }
+  ],
+  "regression_summary": "87 deterministic regression tests passed on runtime corrections (25 artifact, 7 runtime, 50 coordination, 5 Cursor catalog); all 25 artifact tests passed again after the final handoff-label correction. GitHub lint passed on 049f169; final publication checks are recorded separately.",
+  "performance_note": "The run exposes substantial coordination overhead: repeated fresh-worker startup, duplicated context reading, and separate bookkeeping assignments. This delivery validates gates; it does not yet establish a fast path for small work.",
+  "timings": [
+    {
+      "stage": "Answer integration",
+      "start": "2026-09-17T12:58:01.957354+00:00",
+      "end": "2026-09-17T13:02:03.135728+00:00",
+      "seconds": 241.2
+    },
+    {
+      "stage": "Review round 1",
+      "start": "2026-09-17T13:03:57.863633+00:00",
+      "end": "2026-09-17T13:07:03.400872+00:00",
+      "seconds": 185.5
+    },
+    {
+      "stage": "Remediation round 1",
+      "start": "2026-09-17T13:08:28.756097+00:00",
+      "end": "2026-09-17T13:12:50.918711+00:00",
+      "seconds": 262.2
+    },
+    {
+      "stage": "Review round 2",
+      "start": "2026-09-17T13:15:02.818456+00:00",
+      "end": "2026-09-17T13:18:02.446233+00:00",
+      "seconds": 179.6
+    },
+    {
+      "stage": "Explicit decision integration",
+      "start": "2026-09-17T13:20:02.424581+00:00",
+      "end": "2026-09-17T13:26:58.585899+00:00",
+      "seconds": 416.2
+    },
+    {
+      "stage": "Review round 3",
+      "start": "2026-09-17T13:28:33.932399+00:00",
+      "end": "2026-09-17T13:32:11.432217+00:00",
+      "seconds": 217.5
+    },
+    {
+      "stage": "Review report integration",
+      "start": "2026-09-17T13:33:11.144275+00:00",
+      "end": "2026-09-17T13:37:37.039785+00:00",
+      "seconds": 265.9
+    },
+    {
+      "stage": "Local Spec (staged, not reviewed)",
+      "start": "2026-09-17T13:43:20.774393+00:00",
+      "end": "2026-09-17T13:50:27.831026+00:00",
+      "seconds": 427.1
+    }
+  ],
+  "accepted_bundle_commit": "1880576b4e917849bac7b722a12c67b26093b72d",
+  "accepted_content_revision": "ea8e36dabb50f416c1447ff6da5be7f759ee580d87a9fbad3e7e5f6e75e1cef1",
+  "spec_commit": "0e549f858aaa6a02a45b7e07348fe30569538b28",
+  "summary": "Actual agents completed Discovery with independent Product Review and Trace, exact fixture acceptance and one local Spec triplet. Spec returned product_decision_required for two explicit choices; Spec Review did not run. This is not an end-to-end delivery pass.",
+  "measured_window": {
+    "start": "2026-09-17T12:56:18.078142+00:00",
+    "end": "2026-09-17T13:50:51.365599+00:00",
+    "seconds": 3273.3,
+    "limitation": "Excludes initial setup and first unmeasured Discovery. Includes supervisor input, debugging and coordination; not an AI-only execution benchmark."
+  },
+  "runtime_fix_commits": [
+    "049f169a1597de858466f3eb344df2692cde98f3",
+    "df4dd471f1071be4e1e013d866f0f41088cad1bd"
+  ],
+  "review_evidence": [
+    {
+      "path": "reports/reviews/PR-DISC-001-r001/report.json",
+      "sha256": "c1ef326f12b4ff694f5a21d031ae15b471c4c7f5097a2f8d2848cf2ace2a6230",
+      "role": "product",
+      "outcome": "changes_requested",
+      "revision": "5577ae8e1bba5c309af7958530b3c3c730bb9b845450033f8d337dc8d7963a6c",
+      "findings": [
+        {
+          "id": "PR-DISC-001-001",
+          "state": "open",
+          "claim": "The bundle covers no failed or incomplete export. A member whose export request fails, or who receives a truncated file, has no described observable outcome, and the failure case is neither in scope nor excluded. For a capability whose stated user value is offline analysis, silently receiving an incomplete dataset is a material product risk, because the member cannot tell a partial file from a complete one."
+        },
+        {
+          "id": "PR-DISC-001-002",
+          "state": "open",
+          "claim": "The bundle states no boundary on the size of an exportable filtered result. The export is defined purely as 'exactly those authorized records' with no upper bound and no described behavior when the filtered result is larger than the product intends to serve in one on-demand download. This leaves the scope boundary incomplete in the one dimension a filter-driven export can grow without limit."
+        },
+        {
+          "id": "PR-DISC-001-003",
+          "state": "open",
+          "claim": "The manifest's scenario links are incomplete and internally inconsistent. Two relations that hold for all three scenarios are recorded for only two of them. The declared graph therefore understates real dependencies, which is a defect in the reviewed inventory the confirm gate and any later trace view are built on."
+        }
+      ]
+    },
+    {
+      "path": "reports/reviews/PR-DISC-001-r002/report.json",
+      "sha256": "447099e56fe86ab9f76147ad8c2df70f5b7fd64960dbb5f0ed2652155f468075",
+      "role": "product",
+      "outcome": "changes_requested",
+      "revision": "ca73ff7cd3e212abc020d28fb6544ebe30dffaef2d495c293a6a200527d82c0c",
+      "findings": [
+        {
+          "id": "PR-DISC-001-001",
+          "state": "resolved",
+          "claim": "Round-one finding: the bundle covered no failed or incomplete export, so a member could not distinguish a truncated file from a complete one. The new revision adds an observable failure branch. The finding is resolved."
+        },
+        {
+          "id": "PR-DISC-001-002",
+          "state": "resolved",
+          "claim": "Round-one finding: the bundle stated no position on the size of an exportable filtered result, leaving the scope boundary incomplete in the one dimension a filter-driven export can grow without limit. The new revision records an explicit unbounded scope with a failure path instead of silent truncation. The finding is resolved. The attribution of that new position is a separate defect recorded as PR-DISC-001-004; it does not reopen this finding."
+        },
+        {
+          "id": "PR-DISC-001-003",
+          "state": "resolved",
+          "claim": "Round-one finding: two manifest relations that hold for all three scenarios were declared for only two of them, so the declared graph understated real dependencies. Both missing edges are now declared. The finding is resolved."
+        },
+        {
+          "id": "PR-DISC-001-004",
+          "state": "open",
+          "claim": "The two new product boundaries introduced by this revision \u2014 no product-level record-count cap, and a distinguishable failure outcome for an incomplete export \u2014 are producer positions, not test-supervisor inputs, but they are recorded under the heading 'Confirmed boundaries' in a list whose closing bullet attributes the list to the test supervisor, and they are asserted without attribution in the manifest 'scope' field that the content revision hashes. A test supervisor who accepts this revision would accept product commitments they were never asked about and never made."
+        },
+        {
+          "id": "PR-DISC-001-005",
+          "state": "open",
+          "claim": "This revision retracted the populated-result column order without replacing it, so the bundle now fixes the CSV column order only for the degenerate empty result. Two exports of the same capability may therefore present different column orders, which defeats the stated user value of taking the records into an offline analysis tool."
+        }
+      ]
+    },
+    {
+      "path": "reports/reviews/PR-DISC-001-r003/report.json",
+      "sha256": "bd86a69f98fb51896c2240989fb389057794f4ee2ef780a92753eb5b380ab2fe",
+      "role": "product",
+      "outcome": "pass",
+      "revision": "ea8e36dabb50f416c1447ff6da5be7f759ee580d87a9fbad3e7e5f6e75e1cef1",
+      "findings": [
+        {
+          "id": "PR-DISC-001-001",
+          "state": "resolved",
+          "claim": "Round-one finding: the bundle covered no failed or incomplete export, so a member could not distinguish a truncated file from a complete one. Round two resolved it on revision ca73ff7c...; this round re-verified the same check on revision ea8e36da... and the failure branch is still present and now additionally covers recovery. The finding remains resolved."
+        },
+        {
+          "id": "PR-DISC-001-002",
+          "state": "resolved",
+          "claim": "Round-one finding: the bundle stated no position on the size of an exportable filtered result. Round two resolved it as an explicit unbounded scope with a failure path instead of silent truncation, while noting that the attribution of that position was defective (PR-DISC-001-004). On this revision the position is unchanged in substance and is now attributed. The finding remains resolved."
+        },
+        {
+          "id": "PR-DISC-001-003",
+          "state": "resolved",
+          "claim": "Round-one finding: two manifest relations that hold for all three scenarios were declared for only two of them. Round two resolved it. This revision adds DEC-002 and new decided-by edges; I re-enumerated the whole link set on this revision and it remains complete and true. The finding remains resolved."
+        },
+        {
+          "id": "PR-DISC-001-004",
+          "state": "resolved",
+          "claim": "Round-two finding: the no-cap and distinguishable-failure boundaries were producer positions presented under a 'Confirmed boundaries' heading attributed wholesale to the test supervisor, and asserted without qualification in the hashed manifest 'scope'. This revision records the test supervisor's own later choice as a separate attributed decision, enumerates which choices came from which gate, and preserves the earlier producer proposal as unattributed. The finding is resolved, and no backdating was introduced."
+        },
+        {
+          "id": "PR-DISC-001-005",
+          "state": "resolved",
+          "claim": "Round-two finding: the bundle fixed the CSV column order only for the degenerate empty result, so two exports of the same capability could present different column orders. This revision states one common column order for every export, as an attributed test supervisor choice. The finding is resolved."
+        }
+      ]
+    },
+    {
+      "path": "reports/reviews/TR-DISC-001-r001/report.json",
+      "sha256": "95a5bbb7f495afc1fd87aafdbe3c12201e3f69770749d8930bdd7bac0133714e",
+      "role": "trace",
+      "outcome": "changes_requested",
+      "revision": "5577ae8e1bba5c309af7958530b3c3c730bb9b845450033f8d337dc8d7963a6c",
+      "findings": [
+        {
+          "id": "TR-DISC-001-F-001",
+          "state": "open",
+          "claim": "SC-001 asserts a column order for the populated-result export, but no node on its declared provenance path states that claim. The declared edges therefore do not carry the scenario's observable outcome."
+        },
+        {
+          "id": "TR-DISC-001-F-002",
+          "state": "open",
+          "claim": "SC-003 constrains the same current-workspace capability boundary as SC-001 and SC-002 but declares no extends edge to CTX-003, so the capability map does not reach the empty-result scenario. The link set is incomplete, not untrue."
+        }
+      ]
+    },
+    {
+      "path": "reports/reviews/TR-DISC-001-r002/report.json",
+      "sha256": "391d71ca7c4f4295f600d6fb0cbba1e687904afb1fbd0dc924b18387bbfa48ab",
+      "role": "trace",
+      "outcome": "changes_requested",
+      "revision": "ca73ff7cd3e212abc020d28fb6544ebe30dffaef2d495c293a6a200527d82c0c",
+      "findings": [
+        {
+          "id": "TR-DISC-001-F-001",
+          "state": "resolved",
+          "claim": "Round one: SC-001 asserted a populated-result column order that no node on its declared provenance path stated. Round two: the claim is removed and the remaining field-set claim is grounded through a newly declared edge, so the finding is resolved."
+        },
+        {
+          "id": "TR-DISC-001-F-002",
+          "state": "resolved",
+          "claim": "Round one: SC-003 constrained the same current-workspace capability boundary as SC-001 and SC-002 but declared no extends edge to CTX-003, so the capability map could not reach the empty-result scenario. Round two: the edge is declared and both generated representations account for all three scenarios."
+        },
+        {
+          "id": "TR-DISC-001-F-003",
+          "state": "open",
+          "claim": "The remediation introduces a new product-visible observable outcome, a distinguishable failed-or-incomplete export, that no node on SC-001's declared provenance path states, that no decision node records with its alternatives and choosing actor, and that no question records as an accepted uncertainty. It is presented in discovery.md as a confirmed boundary beside test-supervisor-attributed boundaries, so its attribution is not traceable."
+        }
+      ]
+    },
+    {
+      "path": "reports/reviews/TR-DISC-001-r003/report.json",
+      "sha256": "880abb007fd1598622a974f7634c7f3faa71afa739b5d4fe2f1989d6d64aa002",
+      "role": "trace",
+      "outcome": "pass",
+      "revision": "ea8e36dabb50f416c1447ff6da5be7f759ee580d87a9fbad3e7e5f6e75e1cef1",
+      "findings": [
+        {
+          "id": "TR-DISC-001-F-001",
+          "state": "resolved",
+          "claim": "Round one: SC-001 asserted a populated-result column order that no node on its declared provenance path stated. Round two: the claim was removed and the remaining field-set claim was grounded through a new depends-on edge to CTX-002. Round three: SC-001 again asserts the exact column order `id,date,status,amount`, but the claim is now stated by an attributed decision node on SC-001's declared path, so the finding stays resolved on a new and stronger basis."
+        },
+        {
+          "id": "TR-DISC-001-F-002",
+          "state": "resolved",
+          "claim": "Round one: SC-003 constrained the same current-workspace capability boundary as SC-001 and SC-002 but declared no extends edge to CTX-003. Round two: the edge was declared. Round three: the edge survives the new revision and both generated representations still account for all three scenarios."
+        },
+        {
+          "id": "TR-DISC-001-F-003",
+          "state": "resolved",
+          "claim": "Round two: the failed-or-incomplete-export outcome was a new product-visible behavior that no node on SC-001's declared provenance path stated, that no decision node recorded with alternatives and a choosing actor, and that no question recorded as an accepted uncertainty, while discovery.md presented it beside supervisor-attributed boundaries. Round three: it is recorded in a sourced decision node with alternatives, positions, choosing actor and source, and linked from SC-001, satisfying closure branch (a)."
+        }
+      ]
+    }
+  ],
+  "handoff_output": {
+    "discovery": "DISC-001",
+    "revision": "ea8e36dabb50f416c1447ff6da5be7f759ee580d87a9fbad3e7e5f6e75e1cef1",
+    "gate": "accepted",
+    "commit": "1880576b4e917849bac7b722a12c67b26093b72d",
+    "source": "docs/discovery/DISC-001/manifest.json",
+    "tracker": {
+      "mode": "local",
+      "repository": null,
+      "issue": null
+    },
+    "scenarios": [
+      "SC-001",
+      "SC-002",
+      "SC-003"
+    ]
+  },
+  "screenshot": {
+    "path": "trace-navigator.png",
+    "sha256": "791551eecde152949dfb21c8ce1cba0b10c0e2d3ebe8dd208f273060baeab306",
+    "scope": "Visual rendering of trace artifact only; browser timeout and interaction limitations recorded in LIVE-T12."
+  }
+}
