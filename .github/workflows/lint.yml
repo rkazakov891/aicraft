@@ -33,6 +33,10 @@ jobs:
         run: |
           python3 scripts/check-coordination-contracts.py
           python3 scripts/tests/test_check_coordination_contracts.py
+          python3 scripts/tests/test_foreman_runtime.py
+
+      - name: Test Discovery artifacts and handoffs
+        run: python3 scripts/tests/test_discovery.py
 
       - name: Parse JSON
         run: git ls-files '*.json' | xargs -I{} jq empty {}

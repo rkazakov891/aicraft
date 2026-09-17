@@ -3,7 +3,7 @@ name: aicraft-spec
 description: >
   Create or resume one complete feature contract triplet, including the first MVP feature,
   or one quick-task file from exactly one local requirements document, selected
-  GitHub PRD issue, or inline quick brief. Use for feature and PRD intake,
+  GitHub PRD issue, accepted Discovery bundle, or inline quick brief. Use for feature and PRD intake,
   staged feature completion, Spec review remediation, and authorized feature
   tracker projection, branch push, or spec-PR creation and update. Not for
   project scaffolding, task planning, implementation, review, PR landing, or closure.
@@ -16,6 +16,8 @@ Never replay another AiCraft skill's report. Omit unrelated prior state. When re
 Produce one complete feature contract or one quick task, commit its local state, and return exact Review and Land handoffs. Spec is the sole producer of every `spec.md`, `design.md`, and `tasks.md` feature triplet, including the first MVP. It never implements, reviews, merges PRs, closes tracker state, or invokes Review or Land.
 
 Claude Code `/aicraft:aicraft-<name>`; Codex `$aicraft:aicraft-<name>`; OpenCode `aicraft-<name>`; Cursor `/aicraft-<name>`.
+
+For an accepted Discovery source, read [Discovery intake](references/discovery-intake.md) before the generic intake rules. Preserve scenario IDs and adopt the permanent feature issue.
 
 ## Load the contracts
 

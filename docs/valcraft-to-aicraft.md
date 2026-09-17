@@ -26,7 +26,7 @@ Do not replace strings across a live consumer repository automatically. The chan
 1. Finish or explicitly stop the existing delivery run. Preserve its reports and history. Never run both coordinators against the same work or resume a Valcraft checkpoint as an AiCraft checkpoint.
 2. Preserve `.valcraft/` as the old state. Prepare `.aicraft/config.yaml` from the reviewed base configuration, renaming only the top-level version key to `aicraft_version`. Retain the recorded version so Tune can apply inherited migrations. Review any explicit paths or skill invocations separately.
 3. If a local overlay exists, prepare `.aicraft/config.local.yaml` separately and keep it ignored. Retain its user-specific values; never publish it. Add `/.aicraft/*` and `!/.aicraft/config.yaml` to the project's ignore rules before writing runtime state or the overlay.
-4. Run AiCraft Tune to validate the configuration and migrate it to 0.8.3. Update project instructions and invocation references deliberately.
+4. Run AiCraft Tune to validate the configuration and migrate it to the installed AiCraft version. Update project instructions and invocation references deliberately.
 5. For GitHub-tracked work, stop before projection or delivery until existing issue mappings, generated-body markers, labels, and ownership have been reconciled under an explicitly authorized migration. Preserve issue IDs and human history. This release does not supply an automatic cross-namespace tracker migration; starting a fresh, non-overlapping contract is the supported alternative.
 6. Start a new AiCraft run from verified repository and tracker evidence. Preserve historical Valcraft reports and identifiers rather than rewriting their attribution.
 

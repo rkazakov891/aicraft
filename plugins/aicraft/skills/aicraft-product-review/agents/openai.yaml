@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Review"
+  short_description: "Review feature value and capability conflicts"
+  default_prompt: "Use $aicraft:aicraft-product-review to review this Discovery against existing and planned capabilities."

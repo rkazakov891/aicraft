@@ -2,6 +2,8 @@
 
 This registry links producer-owned reports to coordinator transitions. It never copies a report shape. The producing skill owns its headings, semantic fields, routing codes, and terminal `Status:` line.
 
+The optional [Discovery prelude](discovery.md) owns its separate JSON return and transition validation. This registry continues to govern existing producer reports after the prelude hands off to Spec.
+
 ## Assignment envelope
 
 Send every worker these fields in order:

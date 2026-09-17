@@ -1,0 +1,19 @@
+{
+  "skill_name": "aicraft-trace",
+  "evals": [
+    {
+      "id": 1,
+      "name": "updated-scenario-old-approval",
+      "prompt": "Trace a bundle whose scenario changed after acceptance while its previous product review remains referenced. Generate no successful gate result without resolving the mismatch.",
+      "expected_output": "Detects the stale source hash or review revision, routes the issue to its owner, and does not bless or silently refresh acceptance.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "misleading-valid-link",
+      "prompt": "Trace a structurally valid graph where a scenario permitting all users to export cites a source that restricts export to administrators.",
+      "expected_output": "Detects semantic contradiction despite successful structural validation and returns a blocking finding with source evidence.",
+      "files": []
+    }
+  ]
+}

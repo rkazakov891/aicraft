@@ -37,14 +37,16 @@ updated: <YYYY-MM-DD>
 
 ## User scenarios
 
-### Scenario 1: <Name>
+### Scenario: <Name or stable SC-ID>
 
-**Given** ... **When** ... **Then** ...
+<User, goal, preconditions, actions, observable outcome, and material alternatives. For Discovery intake, link the canonical SC file rather than copying it.>
 
 ## Functional requirements
 
-- FR-001: The system MUST ...
-- FR-002: The user MUST be able to ...
+- FR-001: When <event>, the system shall <observable response>.
+- FR-002: If <unwanted condition>, then the system shall <observable response>.
+
+<!-- Use the applicable EARS pattern; do not invent events or conditions for always-active requirements. Link SC/DEC sources for Discovery intake. -->
 
 ## Quality requirements
 

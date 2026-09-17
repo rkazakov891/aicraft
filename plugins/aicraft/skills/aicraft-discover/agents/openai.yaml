@@ -1,0 +1,4 @@
+interface:
+  display_name: "Discover"
+  short_description: "Develop ideas into accepted user scenarios"
+  default_prompt: "Use $aicraft:aicraft-discover to develop this idea into scenarios and a reviewed Discovery."

@@ -16,6 +16,16 @@ A migration whose applicable entries name no choice needs no interactive answer:
 
 Entry shape: a `### <title>` heading, one paragraph stating what changed, then `Applies when:`, `Tune performs:` (`none` when the loop or the operator carries the change), and `Operator:` (`none` when no human action remains).
 
+## v0.9.0
+
+### Optional scenario Discovery before Spec
+
+Discover, Product Review, and Trace add revision-bound scenario artifacts and a permanent issue handoff. The opt-in Foreman prelude uses existing spec/spec_review worker settings; the legacy delivery loop and ten-role worker configuration stay unchanged. The helper requires Python 3.10+. Spec uses EARS examples for new requirements; existing contracts are not mechanically rewritten.
+
+- Applies when: an AiCraft base records a version older than 0.9.0.
+- Tune performs: the version write in step 4. Do not create discovery artifacts, change tracker mappings, enable parallel implementation, or alter approval policy.
+- Operator: when opting into Discovery, ensure Python 3.10+ is available and invoke aicraft-discover or explicitly request Discovery-to-Spec coordination. Existing deliveries require no artifact conversion.
+
 ## v0.8.3
 
 ### AiCraft uses an independent namespace

@@ -42,8 +42,11 @@ Feature task IDs are `T-XXX`, with at least three digits, unique within the feat
 
 When an exact Foreman assignment names an existing feature triplet or quick-task artifact, validate and reuse that artifact's one canonical source as the accepted source. Do not ask for, select, or allocate from a new source. This exception resumes only the assigned existing target.
 
+For a selected Discovery manifest, load [Accepted Discovery intake](discovery-intake.md) first. Its exact accepted bundle is an additional source shape; its permanent issue mapping and historical lineage rules take precedence over the generic initial mapping and projection rules below.
+
 Accept exactly one operator-selected source:
 
+- one accepted Discovery manifest under the linked intake contract; or
 - one readable local PRD, plan, or requirements document inside the repository; or
 - one explicitly selected GitHub issue.
 

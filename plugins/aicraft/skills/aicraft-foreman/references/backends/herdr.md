@@ -6,6 +6,8 @@ The controller runs inside the project's Herdr session, and that session is the 
 
 Workers share Foreman's checkout and canonical task branch. Isolation comes from a fresh worker per dispatch and serial execution, not from a worktree, so the shared-checkout rules in [`subagents.md`](subagents.md#shared-checkout) apply unchanged.
 
+The opt-in [Discovery prelude](../discovery.md) may isolate product and Trace review outputs in detached snapshot worktrees. That scoped exception does not enable concurrent task implementation or change the canonical task-branch rules. Apply its explicit spec/spec_review role bindings.
+
 ## Flags
 
 | Flag | Value |
@@ -98,7 +100,7 @@ A worker that blocks during startup is not a failure. Herdr reports it as `block
 
 ### Exit before the first assignment
 
-Immediately before first submission, use `herdr pane get <pane-id>` to verify the expected occupant and a non-null `agent_session`. Record that session identity. A shell left in the pane is not a ready worker. Handle a live blocked occupant under Permission prompts rather than restarting it.
+Immediately before the first product assignment, verify the expected occupant and a non-null native `agent_session`. Record that session identity. A shell left in the pane is not a ready worker. Codex may expose its native session only after its first turn. In that one case, run `python3 <foreman-skill-dir>/scripts/runtime.py bootstrap <agent-name> --pane <pane-id> --cwd <recorded-cwd> --record <unique-bootstrap-record>` from the controller session. The helper sends one fixed no-tools, no-product identity-initialization prompt and re-reads the native identity. This is runtime setup, not a product assignment. Record its measured event and transport result separately. A `ready` result permits normal assignment; `waiting` requires awaiting the same occupant then re-observing; `blocked` stops dispatch. Never send business work with an unavailable identity, invent an ID, use a name/terminal as a substitute, or replay an ambiguously delivered bootstrap. Other harnesses with a missing identity remain blocked. Handle a live blocked occupant under Permission prompts rather than restarting it.
 
 When the launched worker has exited and no assignment was submitted, record a startup observation and restart with the identical argument vector in the same pane. Confirm the old occupant is gone and the checkout still matches the pre-launch state before restarting. The restart keeps the logical identity, dispatch ordinal, and agent name; the exited attempt's own `workers.md` row is this worker's history, not a name collision. Record and verify the new `agent_session` before submission; pane and name reuse do not preserve physical identity. Apply `hygiene.md`'s owner-established two-attempt rule to startup attempts and escalate when exhausted.
 

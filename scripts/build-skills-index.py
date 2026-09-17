@@ -4,7 +4,7 @@
 OpenCode's `skills.urls` (v1 config) / `skills` (v2 config) fetches `<url>/index.json`,
 then `<url>/<name>/<file>` for every listed file, and refreshes a cached skill when its
 `version` changes. This script lists each skill's shipped files (SKILL.md, references/,
-templates/, agents/ — never evals/) and sets `version` to a content hash of those files,
+templates/, agents/, scripts/ — never evals/) and sets `version` to a content hash of those files,
 so a change to any shipped file is a new version and an unchanged skill is not re-pulled.
 
 Run from the repository root:
@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "plugins" / "aicraft" / "skills"
 INDEX = SKILLS / "index.json"
-SHIPPED_DIRS = ("references", "templates", "agents")
+SHIPPED_DIRS = ("references", "templates", "agents", "scripts")
 
 
 def skill_files(skill_dir: Path) -> list[str]:
@@ -33,7 +33,7 @@ def skill_files(skill_dir: Path) -> list[str]:
         if not base.is_dir():
             continue
         for path in sorted(base.rglob("*")):
-            if path.is_file():
+            if path.is_file() and "__pycache__" not in path.parts and path.suffix != ".pyc":
                 files.append(path.relative_to(skill_dir).as_posix())
     return files
 

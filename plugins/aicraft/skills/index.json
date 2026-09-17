@@ -20,6 +20,20 @@
       ]
     },
     {
+      "name": "aicraft-discover",
+      "version": "0139d0efdd720a04",
+      "files": [
+        "SKILL.md",
+        "references/artifacts.md",
+        "references/github.md",
+        "templates/decision.md",
+        "templates/discovery.md",
+        "templates/scenario.md",
+        "agents/openai.yaml",
+        "scripts/discovery.py"
+      ]
+    },
+    {
       "name": "aicraft-distill",
       "version": "0025ee1adf154ab8",
       "files": [
@@ -40,7 +54,7 @@
     },
     {
       "name": "aicraft-foreman",
-      "version": "0c91df24f2e77d9c",
+      "version": "4ce99ab9b509eab1",
       "files": [
         "SKILL.md",
         "references/approval-modes.md",
@@ -50,13 +64,15 @@
         "references/backends/subagents.md",
         "references/configuration.md",
         "references/contracts.md",
+        "references/discovery.md",
         "references/hygiene.md",
         "references/intake-github.md",
         "references/intake-local.md",
         "references/loop.md",
         "references/review-round.md",
         "templates/run-dir.md",
-        "agents/openai.yaml"
+        "agents/openai.yaml",
+        "scripts/runtime.py"
       ]
     },
     {
@@ -99,6 +115,14 @@
       ]
     },
     {
+      "name": "aicraft-product-review",
+      "version": "9f2b56b8bece06c2",
+      "files": [
+        "SKILL.md",
+        "agents/openai.yaml"
+      ]
+    },
+    {
       "name": "aicraft-review",
       "version": "0a25e19a751d33e5",
       "files": [
@@ -111,10 +135,11 @@
     },
     {
       "name": "aicraft-spec",
-      "version": "c711bb41434cebdb",
+      "version": "29ea19da1a3c743e",
       "files": [
         "SKILL.md",
         "references/delivery.md",
+        "references/discovery-intake.md",
         "references/feature-contract.md",
         "references/github-projection.md",
         "references/quick.md",
@@ -136,8 +161,16 @@
       ]
     },
     {
+      "name": "aicraft-trace",
+      "version": "a86252a3c6a444e1",
+      "files": [
+        "SKILL.md",
+        "agents/openai.yaml"
+      ]
+    },
+    {
       "name": "aicraft-tune",
-      "version": "b325c6478eafbd4d",
+      "version": "0cb2e5f4b34cee26",
       "files": [
         "SKILL.md",
         "references/config.md",
