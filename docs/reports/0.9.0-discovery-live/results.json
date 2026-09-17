@@ -3,7 +3,7 @@
   "initial_plugin_commit": "84fb88037632c29092e9c56dc92dda7b6e02e41b",
   "corrected_plugin_commit": "df4dd471f1071be4e1e013d866f0f41088cad1bd",
   "run_date": "2026-09-17",
-  "outcome": "PARTIAL \u2014 Discovery accepted; Spec stopped for product decisions",
+  "outcome": "PASS WITH LIMITATIONS \u2014 Discovery accepted; local Spec independently reviewed",
   "scope": "Actual Herdr Discovery-to-Spec exercise in an isolated fictional local repository; no application implementation or external tracker publication.",
   "runtime": {
     "herdr": "0.8.2",
@@ -70,19 +70,25 @@
       "id": "LIVE-T10",
       "name": "Create one Spec from accepted canonical scenarios",
       "result": "pass",
-      "evidence": "Spec created exactly one FEAT-001 triplet at 0e549f858aaa6a02a45b7e07348fe30569538b28; frontmatter records DISC-001 accepted commit/revision, and scenario links target original SC-001/002/003 files. Two open product questions remain and prevent implementation readiness."
+      "evidence": "Spec created exactly one FEAT-001 triplet and preserved the accepted DISC-001 commit/revision and canonical SC-001/002/003 links through the reviewed head d0cb9a246e0927d1307287f474fd9c3676ab8bad."
     },
     {
       "id": "LIVE-T11",
       "name": "Independently review Spec and stop before implementation",
-      "result": "blocked",
-      "evidence": "Spec returned question: product_decision_required for OQ-001 (failure/retry interaction) and OQ-002 (CSV serialization/order). Foreman entered AwaitOwner, started neither Spec Review nor Forge, and preserved the unmerged local Spec branch."
+      "result": "pass",
+      "evidence": "Foreman stopped at each product-decision gate, incorporated attributed answers, ran independent Spec Review, remediated R-001, and obtained a closure-check pass on exact head d0cb9a246e0927d1307287f474fd9c3676ab8bad without entering Draft or implementation."
     },
     {
       "id": "LIVE-T12",
       "name": "Render the revision-bound HTML navigator in a browser",
       "result": "pass_with_limitations",
       "evidence": "Headless Chrome produced a screenshot; visual inspection confirmed title, exact revision, source nodes and reverse links. The browser command timed out after 35 seconds, and interactive search/navigation were not exercised."
+    },
+    {
+      "id": "LIVE-T13",
+      "name": "Make user-visible security behavior discriminating before implementation",
+      "result": "pass",
+      "evidence": "Spec Review showed that both reject and constrain behaviors satisfied the first contract. The test supervisor selected scoped success from the current authorized workspace; Spec encoded it in FR-003, AC-002, design and T-002, and the same reviewer closed R-001 by reproducing that the reject implementation now fails the contract."
     }
   ],
   "limitations": [
@@ -90,7 +96,10 @@
     "Fictional supervisor answers do not constitute acceptance of a real product.",
     "GitHub mutation, issue adoption in a live repository, PR merging and application acceptance are outside this run.",
     "Cursor runtime and native skill namespace invocation are not exercised by this Herdr run.",
-    "Navigator screenshot proves rendering only. Browser process timed out after creating it; search and link interaction tests were not run."
+    "Navigator screenshot proves rendering only. Browser process timed out after creating it; search and link interaction tests were not run.",
+    "The final Spec verdict is a plan-mode review of a fictional repository with no application code; no executable user scenario or application acceptance test ran.",
+    "The closure check passed R-001. A second full Spec review was not run because Foreman found no approach drift and the operator authorized remediation plus closure only.",
+    "R-002 and R-003 remain informational observations with no required resolution; they do not appear in the final open-finding set."
   ],
   "findings": [
     {
@@ -137,6 +146,24 @@
       "evidence": "Independent handoff of accepted commit 1880576b4e917849bac7b722a12c67b26093b72d returns gate=draft.",
       "resolution": "Report the effective accepted gate for handoff and spec-adoption, with a regression assertion; validation behavior remains unchanged.",
       "verification": "After stopping product work, direct handoff of accepted snapshot returns gate=accepted; all 25 artifact regression tests pass, including the output assertion."
+    },
+    {
+      "id": "LIVE-006",
+      "kind": "spec-contract",
+      "state": "resolved-by-explicit-input-and-closure-check",
+      "claim": "The initial FEAT-001 contract allowed both a successful authorized-scope export and rejection with an error for the same manipulated workspace reference.",
+      "evidence": "Spec Review R-001 at a84a2f0af57652171d18ee435a6b3222e1951318 reproduced both implementations as conforming.",
+      "resolution": "The test supervisor selected successful export from the current authorized workspace with no reference-caused error; Spec updated FR-003, AC-002, design and T-002.",
+      "verification": "The independent closure check passed at d0cb9a246e0927d1307287f474fd9c3676ab8bad: the scoped-success implementation conforms and the reject implementation fails four contract clauses."
+    },
+    {
+      "id": "LIVE-007",
+      "kind": "worker-command-composition",
+      "state": "recovered-observation",
+      "claim": "One producer-side verification command allowed Markdown backticks from check text to reach the shell, which attempted to execute OQ-002 as a command.",
+      "evidence": "The live Spec worker pane recorded zsh: command not found: OQ-002 during a verification attempt; that attempt was excluded from evidence.",
+      "resolution": "The worker reran the checks without unsafe interpolation and used the clean committed artifacts as the handoff target.",
+      "verification": "Foreman independently verified the clean three-file Spec diff, and the independent closure reviewer passed the final exact head. No plugin correction is claimed."
     }
   ],
   "regression_summary": "87 deterministic regression tests passed on runtime corrections (25 artifact, 7 runtime, 50 coordination, 5 Cursor catalog); all 25 artifact tests passed again after the final handoff-label correction. GitHub lint passed on 049f169; final publication checks are recorded separately.",
@@ -185,20 +212,52 @@
       "seconds": 265.9
     },
     {
-      "stage": "Local Spec (staged, not reviewed)",
+      "stage": "Initial local Spec",
       "start": "2026-09-17T13:43:20.774393+00:00",
       "end": "2026-09-17T13:50:27.831026+00:00",
       "seconds": 427.1
+    },
+    {
+      "stage": "Spec decisions integration",
+      "start": "2026-09-17T14:17:33.629148+00:00",
+      "end": "2026-09-17T14:23:50.125506+00:00",
+      "seconds": 376.5
+    },
+    {
+      "stage": "Sort direction integration",
+      "start": "2026-09-17T14:33:20.347529+00:00",
+      "end": "2026-09-17T14:39:04.399034+00:00",
+      "seconds": 344.1
+    },
+    {
+      "stage": "Spec review",
+      "start": "2026-09-17T14:40:11.855148+00:00",
+      "end": "2026-09-17T14:42:41.622091+00:00",
+      "seconds": 149.8
+    },
+    {
+      "stage": "R-001 remediation",
+      "start": "2026-09-17T14:48:28.800375+00:00",
+      "end": "2026-09-17T14:53:46.192139+00:00",
+      "seconds": 317.4
+    },
+    {
+      "stage": "R-001 closure check",
+      "start": "2026-09-17T14:54:52.471990+00:00",
+      "end": "2026-09-17T14:56:34.519580+00:00",
+      "seconds": 102.0
     }
   ],
   "accepted_bundle_commit": "1880576b4e917849bac7b722a12c67b26093b72d",
   "accepted_content_revision": "ea8e36dabb50f416c1447ff6da5be7f759ee580d87a9fbad3e7e5f6e75e1cef1",
-  "spec_commit": "0e549f858aaa6a02a45b7e07348fe30569538b28",
-  "summary": "Actual agents completed Discovery with independent Product Review and Trace, exact fixture acceptance and one local Spec triplet. Spec returned product_decision_required for two explicit choices; Spec Review did not run. This is not an end-to-end delivery pass.",
+  "spec_commit": "d0cb9a246e0927d1307287f474fd9c3676ab8bad",
+  "spec_review_verdict": "pass",
+  "spec_review_open_material_findings": [],
+  "summary": "Actual agents completed Discovery with independent Product Review and Trace, exact fixture acceptance, one local FEAT-001 contract, independent Spec Review, one attributed remediation and an independent closure-check pass. The run stopped before Draft and implementation, as authorized.",
   "measured_window": {
     "start": "2026-09-17T12:56:18.078142+00:00",
-    "end": "2026-09-17T13:50:51.365599+00:00",
-    "seconds": 3273.3,
+    "end": "2026-09-17T14:57:20.924527+00:00",
+    "seconds": 7262.8,
     "limitation": "Excludes initial setup and first unmeasured Discovery. Includes supervisor input, debugging and coordination; not an AI-only execution benchmark."
   },
   "runtime_fix_commits": [
@@ -364,6 +423,33 @@
           "claim": "Round two: the failed-or-incomplete-export outcome was a new product-visible behavior that no node on SC-001's declared provenance path stated, that no decision node recorded with alternatives and a choosing actor, and that no question recorded as an accepted uncertainty, while discovery.md presented it beside supervisor-attributed boundaries. Round three: it is recorded in a sourced decision node with alternatives, positions, choosing actor and source, and linked from SC-001, satisfying closure branch (a)."
         }
       ]
+    }
+  ],
+  "spec_review_evidence": [
+    {
+      "source_name": "spec-reviewer-F001-d000.md",
+      "sha256": "4ad9c00568715e7454b936ab0f6d517c44aa77f1636def2ca0e4fb277b29a983",
+      "covered_commit": "a84a2f0af57652171d18ee435a6b3222e1951318",
+      "verdict": "material_findings",
+      "open_material_findings": [
+        "R-001:P2"
+      ],
+      "claim": "The contract allowed both scoped success and rejection for a manipulated or out-of-scope workspace reference."
+    },
+    {
+      "source_name": "spec-reviewer-F001-d000-c1.md",
+      "sha256": "ee90c54f75beca35b64982fbfd4860703b27373f19b75cb33e69a4bbd974fe7b",
+      "covered_commit": "d0cb9a246e0927d1307287f474fd9c3676ab8bad",
+      "verdict": "pass",
+      "open_material_findings": [],
+      "closed_findings": [
+        "R-001:P2"
+      ],
+      "informational_findings": [
+        "R-002:P3",
+        "R-003:P3"
+      ],
+      "claim": "The same reviewer reran R-001 and confirmed that scoped success conforms while rejection now fails the contract."
     }
   ],
   "handoff_output": {
