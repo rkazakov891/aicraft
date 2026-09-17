@@ -384,9 +384,10 @@ def main(argv=None):
             return 0
         require(args.coordination_root is None, "--coordination-root is only valid for return-check")
         bundle = read_json(path_in(root, args.manifest))
-        revision = validate(root, bundle, "accepted" if args.command in {"handoff", "spec-adoption"} else args.gate)
+        effective_gate = "accepted" if args.command in {"handoff", "spec-adoption"} else args.gate
+        revision = validate(root, bundle, effective_gate)
         validate_inventory(root, args.manifest, bundle)
-        result = {"discovery": bundle["id"], "revision": revision, "gate": args.gate}
+        result = {"discovery": bundle["id"], "revision": revision, "gate": effective_gate}
         if args.command == "render":
             require(args.output is not None, "render requires --output")
             out = path_in(root, args.output)

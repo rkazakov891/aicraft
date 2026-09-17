@@ -77,6 +77,7 @@ class DiscoveryTests(unittest.TestCase):
         second = subprocess.run(cmd, capture_output=True, text=True, check=True)
         self.assertEqual(json.loads(first.stdout), json.loads(second.stdout))
         self.assertEqual(json.loads(first.stdout)["scenarios"], ["SC-001"])
+        self.assertEqual(json.loads(first.stdout)["gate"], "accepted")
         self.write("scenarios/SC-001.md", "Export every record, ignoring filters.")
         self.assertNotEqual(subprocess.run(cmd, capture_output=True).returncode, 0)
 
